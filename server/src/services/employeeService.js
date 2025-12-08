@@ -8,6 +8,20 @@ class EmployeeService {
     });
   }
 
+  static async updateEmployee(payload) {
+    return prisma.employee.update({
+      where: { employee_id: Number(payload.employee_id) },
+      data: { status: payload.status },
+    });
+  }
+
+  static async deleteEmployee(payload) {
+    return prisma.employee.update({
+      where: { employee_id: Number(payload.employee_id) },
+      data: { status: "RESIGN" },
+    });
+  }
+
   static async getAllEmployees() {
     return prisma.employee.findMany({
       orderBy: { employee_id: "asc" },

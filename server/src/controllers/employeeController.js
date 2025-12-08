@@ -5,9 +5,9 @@ import response from "../utils/response.js";
 class EmployeeController {
   static async createEmployee(req, res) {
     try {
-      const { uid, full_name, department, position, Status } = req.body;
+      const { uid, full_name, department, position, status } = req.body;
 
-      if (!uid || !full_name || !department || !position || !Status) {
+      if (!uid || !full_name || !department || !position || !status) {
         return response(res, 400, "All fields are required");
       }
 
@@ -16,12 +16,51 @@ class EmployeeController {
         full_name,
         department,
         position,
-        Status,
+        status,
       });
 
       return response(res, 201, "Employee created successfully", result);
     } catch (error) {
       console.error(error);
+      return response(res, 500, error);
+    }
+  }
+
+  static async updateEmployee(req, res) {
+    try {
+      const { employee_id, status } = req.body;
+
+      if (!employee_id) {
+        return response(res, 400, "employee_id is required");
+      }
+
+      const result = await EmployeeService.updateEmployee({
+        employee_id,
+        status,
+      });
+
+      return response(res, 200, "Employee updated successfully", result);
+    } catch (error) {
+      console.error("Update employee error:", error);
+      return response(res, 500, error);
+    }
+  }
+
+  static async deleteEmployee(req, res) {
+    try {
+      const { employee_id } = req.body;
+
+      if (!employee_id) {
+        return response(res, 400, "employee_id is required");
+      }
+
+      const result = await EmployeeService.deleteEmployee({
+        employee_id,
+      });
+
+      return response(res, 200, "Employee status is RESIGN", result);
+    } catch (error) {
+      console.error("Delete employee error:", error);
       return response(res, 500, error);
     }
   }

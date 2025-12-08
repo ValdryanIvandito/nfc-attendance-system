@@ -35,13 +35,13 @@ class AttendanceController {
       return response(res, 200, "Attendance updated successfully", result);
     } catch (error) {
       console.error("Update attendance error:", error);
-      return response(res, 500, "Internal server error");
+      return response(res, 500, error);
     }
   }
 
   static async getAttendance(req, res) {
     try {
-      const { attendance_id, uid } = req.query;
+      const { attendance_id } = req.query;
 
       // === GET BY ID ===
       if (attendance_id) {
