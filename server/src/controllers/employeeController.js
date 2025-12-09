@@ -3,7 +3,7 @@ import EmployeeService from "../services/employeeService.js";
 import response from "../utils/response.js";
 
 class EmployeeController {
-  static async createEmployee(req, res) {
+  static async createEmployee(req, res, next) {
     try {
       const { uid, full_name, department, position, status } = req.body;
 
@@ -21,12 +21,11 @@ class EmployeeController {
 
       return response(res, 201, "Employee created successfully", result);
     } catch (error) {
-      console.error(error);
-      return response(res, 500, error);
+      next(error);
     }
   }
 
-  static async updateEmployee(req, res) {
+  static async updateEmployee(req, res, next) {
     try {
       const { employee_id, status } = req.body;
 
@@ -41,12 +40,11 @@ class EmployeeController {
 
       return response(res, 200, "Employee updated successfully", result);
     } catch (error) {
-      console.error("Update employee error:", error);
-      return response(res, 500, error);
+      next(error);
     }
   }
 
-  static async deleteEmployee(req, res) {
+  static async deleteEmployee(req, res, next) {
     try {
       const { employee_id } = req.body;
 
@@ -60,12 +58,11 @@ class EmployeeController {
 
       return response(res, 200, "Employee status is RESIGN", result);
     } catch (error) {
-      console.error("Delete employee error:", error);
-      return response(res, 500, error);
+      next(error);
     }
   }
 
-  static async getEmployee(req, res) {
+  static async getEmployee(req, res, next) {
     try {
       const { employee_id, uid } = req.query;
 
@@ -102,8 +99,7 @@ class EmployeeController {
 
       return response(res, 200, "Success", employees);
     } catch (error) {
-      console.error("getEmployee error:", error);
-      return response(res, 500, error);
+      next(error);
     }
   }
 }

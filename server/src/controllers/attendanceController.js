@@ -3,7 +3,7 @@ import AttendanceService from "../services/attendanceService.js";
 import response from "../utils/response.js";
 
 class AttendanceController {
-  static async createAttendance(req, res) {
+  static async createAttendance(req, res, next) {
     try {
       const { employee_id } = req.body;
 
@@ -17,12 +17,11 @@ class AttendanceController {
 
       return response(res, 201, "Attendance created successfully", result);
     } catch (error) {
-      console.error(error);
-      return response(res, 500, error);
+      next(error);
     }
   }
 
-  static async updateAttendance(req, res) {
+  static async updateAttendance(req, res, next) {
     try {
       const { attendance_id } = req.body;
 
@@ -34,12 +33,11 @@ class AttendanceController {
 
       return response(res, 200, "Attendance updated successfully", result);
     } catch (error) {
-      console.error("Update attendance error:", error);
-      return response(res, 500, error);
+      next(error);
     }
   }
 
-  static async getAttendance(req, res) {
+  static async getAttendance(req, res, next) {
     try {
       const { attendance_id } = req.query;
 
@@ -67,8 +65,7 @@ class AttendanceController {
 
       return response(res, 200, "Success", Attendances);
     } catch (error) {
-      console.error("getAttendance error:", error);
-      return response(res, 500, error);
+      next(error);
     }
   }
 }
