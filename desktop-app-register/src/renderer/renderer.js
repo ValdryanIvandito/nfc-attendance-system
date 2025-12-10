@@ -30,6 +30,41 @@ window.addEventListener("DOMContentLoaded", () => {
   /** PAGE: index.html */
   if (window.location.pathname.endsWith("index.html")) {
     const nextButton = document.getElementById("nextButton");
+    const departmentSelect = document.getElementById("department");
+    const positionSelect = document.getElementById("position");
+
+    const positionMap = {
+      Engineering: [
+        "Software Engineer",
+        "Frontend Developer",
+        "Backend Developer",
+        "DevOps Engineer",
+        "QA Engineer",
+      ],
+      Product: ["Product Manager", "Product Researcher", "Product Analyst"],
+      Marketing: ["Digital Marketer", "Content Writer", "SEO Specialist"],
+      Design: ["UI/UX Designer", "Graphic Designer", "Motion Designer"],
+      Operations: ["Operations Manager", "HR Specialist", "Admin Staff"],
+    };
+
+    // Listener untuk department
+    departmentSelect.addEventListener("change", () => {
+      const selectedDepartment = departmentSelect.value;
+
+      // Kosongkan position dropdown
+      positionSelect.innerHTML = `<option value="">Select position</option>`;
+
+      if (!selectedDepartment || !positionMap[selectedDepartment]) return;
+
+      // Tambahkan opsi position sesuai department
+      positionMap[selectedDepartment].forEach((pos) => {
+        const option = document.createElement("option");
+        option.value = pos;
+        option.textContent = pos;
+        positionSelect.appendChild(option);
+      });
+    });
+
     if (nextButton) {
       nextButton.addEventListener("click", () => {
         const fullName = document.getElementById("full_name").value.trim();
