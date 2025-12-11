@@ -3,15 +3,16 @@ import { LayoutDashboard, Users2, Clock } from "lucide-react";
 
 export default function Sidebar() {
   return (
-    <aside className="w-64 h-full bg-[#0f172a] border-r border-white/10 p-6">
-      {/* Logo */}
-      <div className="flex items-center gap-3 mb-10">
-        <div className="bg-purple-600 p-2 rounded-lg">🎫</div>
-        <h1 className="text-lg font-semibold">NFC Attendance</h1>
+    <div className="hidden lg:flex flex-col w-64 bg-[#0F172A] text-white border-r border-white/10">
+      <div className="p-6 font-bold text-xl flex items-center gap-2">
+        {/* Logo */}
+        <div className="flex items-center gap-3 mb-10">
+          <div className="bg-purple-600 p-2 rounded-lg">🎫</div>
+          <h1 className="text-lg font-semibold">Company Logo</h1>
+        </div>
       </div>
 
-      {/* Menu */}
-      <nav className="flex flex-col gap-4">
+      <nav className="flex-1 space-y-1 p-4">
         <NavLink
           to="/"
           className={({ isActive }) =>
@@ -54,6 +55,6 @@ export default function Sidebar() {
           <Clock size={18} /> Attendance
         </NavLink>
       </nav>
-    </aside>
+    </div>
   );
 }
