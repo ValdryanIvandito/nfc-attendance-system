@@ -22,7 +22,7 @@ export default function MainLayout({ children }: Props) {
       {/* Content area */}
       <div className="flex-1 flex flex-col">
         <Topbar onOpenMobile={() => setMobileOpen(true)} />
-        <main className="p-4 lg:p-8 overflow-auto">{children}</main>
+        <main className="p-4 lg:p-6 overflow-auto">{children}</main>
       </div>
     </div>
   );

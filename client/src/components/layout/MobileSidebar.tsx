@@ -47,7 +47,7 @@ const MobileSidebar: FC<MobileSidebarProps> = ({ isOpen, onClose }) => {
             </div>
           </NavLink>
           <NavLink
-            to="/employees"
+            to="/employee"
             onClick={onClose}
             className="block p-3 rounded-lg hover:bg-white/10"
           >

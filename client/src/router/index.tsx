@@ -14,7 +14,7 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: "/employees",
+    path: "/employee",
     element: (
       <MainLayout>
         <Employee />

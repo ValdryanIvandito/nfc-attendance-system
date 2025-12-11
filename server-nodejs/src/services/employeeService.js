@@ -22,10 +22,45 @@ class EmployeeService {
     });
   }
 
-  static async getAllEmployees() {
-    return prisma.employee.findMany({
-      orderBy: { employee_id: "asc" },
-    });
+  static async getAllEmployees({ page, limit, search, department, status }) {
+    const skip = (page - 1) * limit;
+
+    const where = {
+      AND: [
+        search
+          ? {
+              OR: [
+                { full_name: { contains: search, mode: "insensitive" } },
+                { uid: { contains: search, mode: "insensitive" } },
+              ],
+            }
+          : {},
+
+        department
+          ? { department: { equals: department, mode: "insensitive" } }
+          : {},
+
+        status ? { status } : {},
+      ],
+    };
+
+    const [total, employees] = await Promise.all([
+      prisma.employee.count({ where }),
+      prisma.employee.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy: { employee_id: "asc" },
+      }),
+    ]);
+
+    return {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+      data: employees,
+    };
   }
 
   static async getEmployeeById(employee_id) {

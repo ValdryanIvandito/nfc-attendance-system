@@ -97,10 +97,24 @@ class EmployeeController {
         return response(res, 200, "Success", employee);
       }
 
-      // === GET ALL ===
-      const employees = await EmployeeService.getAllEmployees();
+      // === GET ALL (WITH PAGINATION + SEARCH + FILTER) ===
+      const {
+        page = 1,
+        limit = 10,
+        search = "",
+        department = "",
+        status = "",
+      } = req.query;
 
-      return response(res, 200, "Success", employees);
+      const result = await EmployeeService.getAllEmployees({
+        page: Number(page),
+        limit: Number(limit),
+        search,
+        department,
+        status,
+      });
+
+      return response(res, 200, "Success", result);
     } catch (error) {
       next(error);
     }

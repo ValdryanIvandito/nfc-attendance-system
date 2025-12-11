@@ -28,7 +28,7 @@ export default function Sidebar() {
         </NavLink>
 
         <NavLink
-          to="/employees"
+          to="/employee"
           className={({ isActive }) =>
             `flex items-center gap-3 px-3 py-2 rounded-md transition 
              ${

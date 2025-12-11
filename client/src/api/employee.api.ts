@@ -13,10 +13,37 @@ export interface Employee {
   update_at?: string | null;
 }
 
+export interface PaginatedEmployee {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  data: Employee[];
+}
+
 export const employeeAPI = {
-  getAll: async (): Promise<Employee[]> => {
-    const res = await axiosClient.get("/employee");
-    return res.data.data;
+  /** GET ALL PAGINATED */
+  getAll: async (page: number, limit: number) => {
+    const res = await axiosClient.get(`/employee?page=${page}&limit=${limit}`);
+
+    return {
+      page: res.data.data.page,
+      limit: res.data.data.limit,
+      total: res.data.data.total,
+      totalPages: res.data.data.totalPages,
+      employees: res.data.data.data, // ⬅=== ARRAY EMPLOYEE
+    };
+  },
+
+  /** GET PAGINATED */
+  getPaginated: async (
+    page: number,
+    limit: number
+  ): Promise<PaginatedEmployee> => {
+    const res = await axiosClient.get("/employee", {
+      params: { page, limit },
+    });
+    return res.data;
   },
 
   create: async (data: Partial<Employee>) => {
