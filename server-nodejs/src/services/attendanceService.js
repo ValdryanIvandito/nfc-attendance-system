@@ -21,10 +21,49 @@ class AttendanceService {
     });
   }
 
-  static async getAllAttendances() {
-    return prisma.attendance.findMany({
-      orderBy: { attendance_id: "asc" },
-    });
+  static async getAllAttendances({ page, limit, search, dateStart, dateEnd }) {
+    const skip = (page - 1) * limit;
+
+    const where = {
+      ...(search
+        ? {
+            Employee: {
+              full_name: {
+                equals: search, // benar-benar harus sesuai
+                mode: "insensitive", // abaikan kapital
+              },
+            },
+          }
+        : {}),
+
+      ...(dateStart && dateEnd
+        ? {
+            attendance_date: {
+              gte: new Date(dateStart),
+              lte: new Date(dateEnd),
+            },
+          }
+        : {}),
+    };
+
+    const [data, total] = await Promise.all([
+      prisma.attendance.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy: { attendance_id: "desc" },
+        include: { Employee: true },
+      }),
+      prisma.attendance.count({ where }),
+    ]);
+
+    return {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+      attendances: data,
+    };
   }
 
   static async getAttendanceById(attendance_id) {

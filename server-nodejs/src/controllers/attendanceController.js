@@ -72,10 +72,24 @@ class AttendanceController {
         return response(res, 200, "Success", attendance);
       }
 
-      // === GET ALL ===
-      const Attendances = await AttendanceService.getAllAttendances();
+      // === GET ALL (WITH PAGINATION + SEARCH + FILTER) ===
+      const {
+        page = 1,
+        limit = 10,
+        search = "",
+        dateStart = "",
+        dateEnd = "",
+      } = req.query;
 
-      return response(res, 200, "Success", Attendances);
+      const result = await AttendanceService.getAllAttendances({
+        page: Number(page),
+        limit: Number(limit),
+        search,
+        dateStart,
+        dateEnd,
+      });
+
+      return response(res, 200, "Success", result);
     } catch (error) {
       next(error);
     }

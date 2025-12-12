@@ -20,8 +20,6 @@ class EmployeeController {
         status: "ACTIVE",
       });
 
-      console.log;
-
       return response(res, 201, "Employee created successfully", result);
     } catch (error) {
       next(error);

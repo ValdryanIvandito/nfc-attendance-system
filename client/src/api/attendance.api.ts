@@ -1,19 +1,30 @@
 import { axiosClient } from "./_axiosClient";
-import type { Attendance } from "@/types/attendance.type";
 
 export const attendanceAPI = {
-  getAll: async (): Promise<Attendance[]> => {
-    const res = await axiosClient.get("/attendance");
-    return res.data;
-  },
+  getAll: async (
+    page: number,
+    limit: number,
+    search?: string,
+    dateStart?: string,
+    dateEnd?: string
+  ) => {
+    const params = new URLSearchParams();
 
-  create: async (data: { uid: string }) => {
-    const res = await axiosClient.post("/attendance", data);
-    return res.data;
-  },
+    params.append("page", String(page));
+    params.append("limit", String(limit));
+    params.append("dateStart", String(dateStart));
+    params.append("dateEnd", String(dateEnd));
 
-  update: async (data: { uid: string; check_out_at?: string }) => {
-    const res = await axiosClient.patch("/attendance", data);
-    return res.data;
+    if (search) params.append("search", search);
+
+    const res = await axiosClient.get(`/attendance?${params.toString()}`);
+
+    return {
+      page: res.data.data.page,
+      limit: res.data.data.limit,
+      total: res.data.data.total,
+      totalPages: res.data.data.totalPages,
+      attendances: res.data.data.data, // array attendance
+    };
   },
 };
