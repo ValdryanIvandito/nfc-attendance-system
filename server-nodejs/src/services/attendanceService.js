@@ -21,29 +21,48 @@ class AttendanceService {
     });
   }
 
-  static async getAllAttendances({ page, limit, search, dateStart, dateEnd }) {
+  static async getAllAttendances({ page, limit, search, department, date }) {
     const skip = (page - 1) * limit;
 
     const where = {
-      ...(search
-        ? {
-            Employee: {
-              full_name: {
-                equals: search, // benar-benar harus sesuai
-                mode: "insensitive", // abaikan kapital
+      AND: [
+        ...(search
+          ? [
+              {
+                Employee: {
+                  full_name: {
+                    contains: search,
+                    mode: "insensitive",
+                  },
+                },
               },
-            },
-          }
-        : {}),
+            ]
+          : []),
 
-      ...(dateStart && dateEnd
-        ? {
-            attendance_date: {
-              gte: new Date(dateStart),
-              lte: new Date(dateEnd),
-            },
-          }
-        : {}),
+        ...(department
+          ? [
+              {
+                Employee: {
+                  department: {
+                    equals: department,
+                    mode: "insensitive",
+                  },
+                },
+              },
+            ]
+          : []),
+
+        ...(date
+          ? [
+              {
+                check_in_at: {
+                  gte: new Date(`${date}T00:00:00.000Z`),
+                  lte: new Date(`${date}T23:59:59.999Z`),
+                },
+              },
+            ]
+          : []),
+      ],
     };
 
     const [total, attendances] = await Promise.all([
