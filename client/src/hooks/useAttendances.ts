@@ -6,21 +6,22 @@ import type {
   AttendanceListResponse,
 } from "@/types/attendance.type";
 import { attendanceAPI } from "@/api/attendance.api";
+import { toLocalDateISO } from "@/lib/utils";
 
 type UseAttendancesParams = {
   initialPage?: number;
   initialLimit?: number;
   initialSearch?: string;
-  initialDateStart?: string;
-  initialDateEnd?: string;
+  initialDepartment?: string;
+  initialDate?: Date | undefined;
 };
 
 export function useAttendances({
   initialPage = 1,
   initialLimit = 6,
   initialSearch = "",
-  initialDateStart = "",
-  initialDateEnd = "",
+  initialDepartment = "",
+  initialDate = new Date(),
 }: UseAttendancesParams = {}) {
   const [attendanceData, setAttendanceData] = useState<Attendance[]>([]);
   const [page, setPage] = useState(initialPage);
@@ -28,22 +29,37 @@ export function useAttendances({
   const [totalPages, setTotalPages] = useState(1);
 
   const [search, setSearch] = useState(initialSearch);
-  const [dateStart, setDateStart] = useState(initialDateStart);
-  const [dateEnd, setDateEnd] = useState(initialDateEnd);
+  const [department, setDepartment] = useState(initialDepartment);
+  const [date, setDate] = useState<Date | undefined>(initialDate);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
 
   const fetch = useCallback(async () => {
     try {
+      console.log(
+        "PAGE:",
+        page,
+        "LIMIT:",
+        limit,
+        "SEARCH:",
+        search,
+        "DEPT:",
+        department,
+        "DATE ORI:",
+        date,
+        "DATE CONVERT:",
+        toLocalDateISO(date)
+      );
+
       setLoading(true);
       setError(null);
       const res: AttendanceListResponse = await attendanceAPI.getAll(
         page,
         limit,
         search,
-        dateStart,
-        dateEnd
+        department,
+        toLocalDateISO(date)
       );
       console.log("Fetched attendances:", res);
       setAttendanceData(res.attendances);
@@ -53,7 +69,7 @@ export function useAttendances({
     } finally {
       setLoading(false);
     }
-  }, [page, limit, search, dateStart, dateEnd]);
+  }, [page, limit, search, department, date]);
 
   useEffect(() => {
     fetch();
@@ -68,10 +84,10 @@ export function useAttendances({
     totalPages,
     search,
     setSearch,
-    dateStart,
-    setDateStart,
-    dateEnd,
-    setDateEnd,
+    department,
+    setDepartment,
+    date,
+    setDate,
     loading,
     error,
   };

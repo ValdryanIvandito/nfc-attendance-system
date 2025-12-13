@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { useAttendances } from "@/hooks/useAttendances";
+import { AttendanceFilters } from "@/components/AttendanceFilters";
 import { AttendanceTable } from "@/components/AttendanceTable";
 import { AttendanceDialog } from "@/components/AttendanceDialog";
 import type { Attendance } from "@/types/attendance.type";
@@ -16,10 +17,10 @@ export default function Attendance() {
     totalPages,
     search,
     setSearch,
-    dateStart,
-    setDateStart,
-    dateEnd,
-    setDateEnd,
+    department,
+    setDepartment,
+    date,
+    setDate,
   } = useAttendances();
 
   const [detailAttendance, setDetailAttendance] = useState<Attendance | null>(
@@ -28,6 +29,21 @@ export default function Attendance() {
 
   return (
     <>
+      <AttendanceFilters
+        search={search}
+        onSearch={setSearch}
+        department={department}
+        onDepartment={(v) => {
+          setDepartment(v);
+          setPage(1);
+        }}
+        date={date}
+        onDate={(v) => {
+          setDate(v);
+          setPage(1);
+        }}
+      />
+
       <Card className="bg-[#0F172A] text-white border border-white/10 mb-4 h-112 flex justify-between">
         <AttendanceTable data={attendanceData} onDetail={setDetailAttendance} />
 

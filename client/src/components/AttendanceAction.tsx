@@ -12,11 +12,10 @@ export const AttendanceAction: React.FC<Props> = ({ onDetail }) => {
     <div className="flex items-center justify-center gap-1 flex-wrap">
       <Button
         size="sm"
-        className="xl:hidden bg-transparent hover:bg-yellow-500/10 text-yellow-400 hover:text-yellow-300 px-2"
+        className="md:hidden bg-transparent hover:bg-yellow-500/10 text-yellow-400 hover:text-yellow-300 px-2"
         onClick={onDetail}
       >
         <Info className="w-4 h-4" />
-        Detail
       </Button>
     </div>
   );

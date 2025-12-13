@@ -5,17 +5,17 @@ export const attendanceAPI = {
     page: number,
     limit: number,
     search?: string,
-    dateStart?: string,
-    dateEnd?: string
+    department?: string,
+    date?: string
   ) => {
     const params = new URLSearchParams();
 
     params.append("page", String(page));
     params.append("limit", String(limit));
-    params.append("dateStart", String(dateStart));
-    params.append("dateEnd", String(dateEnd));
-
     if (search) params.append("search", search);
+    if (department && department !== "ALL")
+      params.append("department", department);
+    params.append("date", String(date));
 
     const res = await axiosClient.get(`/attendance?${params.toString()}`);
 

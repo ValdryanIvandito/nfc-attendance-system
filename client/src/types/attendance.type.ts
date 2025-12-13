@@ -2,12 +2,11 @@
 import type { Employee } from "./employee.types.ts";
 
 export type Attendance = {
-  Employee: any;
   attendance_id: number;
   uid: string;
-  check_in_at: string;
-  check_out_at?: string | null;
-  employee: Employee;
+  check_in_at: Date | undefined;
+  check_out_at?: Date | undefined;
+  Employee: Employee;
 };
 
 export type AttendanceListResponse = {

@@ -24,7 +24,8 @@ export function getStatusColor(status: string) {
   }
 }
 
-export function extractTime(dateTimeString: string) {
+export function extractTime(dateTimeString: Date | undefined) {
+  if (!dateTimeString) return "N/A";
   const date = new Date(dateTimeString);
 
   const hours24 = date.getHours();
@@ -38,4 +39,37 @@ export function extractTime(dateTimeString: string) {
   ).padStart(2, "0")}:${String(seconds).padStart(2, "0")} ${period}`;
 
   return format;
+}
+
+export function toLocalDateShortText(dateTimeString: Date | undefined) {
+  if (!dateTimeString) return "N/A";
+  const date = new Date(dateTimeString);
+
+  return date.toLocaleDateString("id-ID", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+export function toLocalDateISO(dateInput: Date | undefined) {
+  if (!dateInput) return "N/A";
+  const date = new Date(dateInput);
+
+  const yyyy = date.getFullYear();
+  const mm = String(date.getMonth() + 1).padStart(2, "0");
+  const dd = String(date.getDate()).padStart(2, "0");
+
+  return `${yyyy}-${mm}-${dd}`;
+}
+
+export function toUTCDateISO(dateInput: Date | undefined) {
+  if (!dateInput) return "N/A";
+  const date = new Date(dateInput);
+
+  const yyyy = date.getUTCFullYear();
+  const mm = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const dd = String(date.getUTCDate()).padStart(2, "0");
+
+  return `${yyyy}-${mm}-${dd}`;
 }
