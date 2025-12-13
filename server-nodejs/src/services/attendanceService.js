@@ -1,14 +1,20 @@
 // src/services/attendanceService.js
 import prisma from "../utils/prisma.js";
+import eventBus from "../utils/eventBus.js";
+import getStartEndofDay from "../utils/getStartEndofDay.js";
 
 class AttendanceService {
   static async createAttendance(payload) {
-    return prisma.attendance.create({
+    const attendance = await prisma.attendance.create({
       data: payload,
       include: {
         Employee: true,
       },
     });
+
+    eventBus.emit("attendance:created", attendance);
+
+    return attendance;
   }
 
   static async updateAttendance(attendance_id) {
@@ -93,18 +99,14 @@ class AttendanceService {
   }
 
   static async getAttendanceByDateNow(uid) {
-    const startOfDay = new Date();
-    startOfDay.setHours(0, 0, 0, 0);
-
-    const endOfDay = new Date();
-    endOfDay.setHours(23, 59, 59, 999);
+    const { start, end } = getStartEndOfDay("Asia/Jakarta");
 
     return prisma.attendance.findFirst({
       where: {
         uid: uid,
         check_in_at: {
-          gte: startOfDay,
-          lte: endOfDay,
+          gte: start,
+          lte: end,
         },
       },
       include: {

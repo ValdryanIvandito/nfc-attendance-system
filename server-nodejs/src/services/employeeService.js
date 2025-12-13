@@ -1,18 +1,27 @@
 // src/services/employeeService.js
 import prisma from "../utils/prisma.js";
+import eventBus from "../utils/eventBus.js";
 
 class EmployeeService {
   static async createEmployee(payload) {
-    return prisma.employee.create({
+    const employee = prisma.employee.create({
       data: payload,
     });
+
+    eventBus.emit("employee:created", employee);
+
+    return employee;
   }
 
   static async updateEmployee(payload) {
-    return prisma.employee.update({
+    const employee = await prisma.employee.update({
       where: { employee_id: Number(payload.employee_id) },
       data: { status: payload.status },
     });
+
+    eventBus.emit("employee:updated", employee);
+
+    return employee;
   }
 
   static async deleteEmployee(payload) {

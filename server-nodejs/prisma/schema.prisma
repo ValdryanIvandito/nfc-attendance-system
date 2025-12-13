@@ -22,7 +22,7 @@ model Employee {
 
 model Attendance {
   attendance_id Int       @id @default(autoincrement())
-  uid           String    @unique
+  uid           String    
   check_in_at   DateTime  @default(now())
   check_out_at  DateTime?
   Employee      Employee  @relation(fields: [uid], references: [uid])

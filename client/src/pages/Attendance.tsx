@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { useAttendances } from "@/hooks/useAttendances";
+import { useEventStream } from "@/hooks/useEventStream";
 import { AttendanceFilters } from "@/components/AttendanceFilters";
 import { AttendanceTable } from "@/components/AttendanceTable";
 import { AttendanceDialog } from "@/components/AttendanceDialog";
@@ -10,6 +11,7 @@ import type { Attendance } from "@/types/attendance.type";
 export default function Attendance() {
   const {
     attendanceData,
+    prependAttendance,
     page,
     setPage,
     limit,
@@ -22,6 +24,8 @@ export default function Attendance() {
     date,
     setDate,
   } = useAttendances();
+
+  useEventStream<Attendance>("attendance:created", prependAttendance);
 
   const [detailAttendance, setDetailAttendance] = useState<Attendance | null>(
     null

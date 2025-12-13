@@ -10,6 +10,7 @@ export type Attendance = {
 };
 
 export type AttendanceListResponse = {
+  [x: string]: SetStateAction<number>;
   attendances: Attendance[];
   totalPages: number;
 };

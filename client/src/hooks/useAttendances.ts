@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// src/hooks/useAttendances.ts
 import { useCallback, useEffect, useState } from "react";
 import type {
   Attendance,
@@ -8,52 +7,27 @@ import type {
 import { attendanceAPI } from "@/api/attendance.api";
 import { toLocalDateISO } from "@/lib/utils";
 
-type UseAttendancesParams = {
-  initialPage?: number;
-  initialLimit?: number;
-  initialSearch?: string;
-  initialDepartment?: string;
-  initialDate?: Date | undefined;
-};
-
-export function useAttendances({
-  initialPage = 1,
-  initialLimit = 6,
-  initialSearch = "",
-  initialDepartment = "",
-  initialDate = new Date(),
-}: UseAttendancesParams = {}) {
+export function useAttendances() {
   const [attendanceData, setAttendanceData] = useState<Attendance[]>([]);
-  const [page, setPage] = useState(initialPage);
-  const [limit, setLimit] = useState(initialLimit);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(6);
+
+  const [, setTotal] = useState(0); // ✅ WAJIB
   const [totalPages, setTotalPages] = useState(1);
 
-  const [search, setSearch] = useState(initialSearch);
-  const [department, setDepartment] = useState(initialDepartment);
-  const [date, setDate] = useState<Date | undefined>(initialDate);
+  const [search, setSearch] = useState("");
+  const [department, setDepartment] = useState("");
+  const [date, setDate] = useState<Date | undefined>(new Date());
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
 
-  const fetch = useCallback(async () => {
+  /* ================= FETCH ================= */
+  const fetchAttendances = useCallback(async () => {
     try {
-      console.log(
-        "PAGE:",
-        page,
-        "LIMIT:",
-        limit,
-        "SEARCH:",
-        search,
-        "DEPT:",
-        department,
-        "DATE ORI:",
-        date,
-        "DATE CONVERT:",
-        toLocalDateISO(date)
-      );
-
       setLoading(true);
       setError(null);
+
       const res: AttendanceListResponse = await attendanceAPI.getAll(
         page,
         limit,
@@ -61,9 +35,10 @@ export function useAttendances({
         department,
         toLocalDateISO(date)
       );
-      console.log("Fetched attendances:", res);
+
       setAttendanceData(res.attendances);
-      setTotalPages(res.totalPages);
+      setTotal(res.total); // 🔑 SOURCE OF TRUTH
+      setTotalPages(Math.max(1, Math.ceil(res.total / limit)));
     } catch (err) {
       setError(err);
     } finally {
@@ -71,24 +46,62 @@ export function useAttendances({
     }
   }, [page, limit, search, department, date]);
 
+  /* ================= REALTIME ================= */
+  const prependAttendance = useCallback(
+    (attendance: Attendance) => {
+      if (page !== 1) return;
+
+      setAttendanceData((prev) => {
+        if (prev.some((a) => a.attendance_id === attendance.attendance_id)) {
+          return prev;
+        }
+
+        if (!attendance.check_in_at) return prev;
+
+        if (date) {
+          const selectedDateISO = toLocalDateISO(date);
+          const attendanceDateISO = toLocalDateISO(
+            new Date(attendance.check_in_at)
+          );
+          if (selectedDateISO !== attendanceDateISO) return prev;
+        }
+
+        return [attendance, ...prev].slice(0, limit);
+      });
+
+      // 🔑 PRESISI TOTAL
+      setTotal((prev) => {
+        const nextTotal = prev + 1;
+        setTotalPages(Math.ceil(nextTotal / limit));
+        return nextTotal;
+      });
+    },
+    [page, date, limit]
+  );
+
   useEffect(() => {
-    fetch();
-  }, [fetch]);
+    fetchAttendances();
+  }, [fetchAttendances]);
 
   return {
     attendanceData,
+    prependAttendance,
+
     page,
     setPage,
     limit,
     setLimit,
     totalPages,
+
     search,
     setSearch,
     department,
     setDepartment,
     date,
     setDate,
+
     loading,
     error,
   };
 }
+

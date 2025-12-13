@@ -43,14 +43,12 @@ proxyRouter.use((req, res, next) => {
 });
 
 // ==================== EMPLOYEE ====================
-
 proxyRouter.get("/v1/employee", EmployeeController.getEmployee);
 proxyRouter.post("/v1/employee", EmployeeController.createEmployee);
 proxyRouter.patch("/v1/employee", EmployeeController.updateEmployee);
 proxyRouter.delete("/v1/employee", EmployeeController.deleteEmployee);
 
 // ==================== ATTENDANCE ====================
-
 proxyRouter.get("/v1/attendance", AttendanceController.getAttendance);
 proxyRouter.post("/v1/attendance", AttendanceController.createAttendance);
 proxyRouter.patch("/v1/attendance", AttendanceController.updateAttendance);
