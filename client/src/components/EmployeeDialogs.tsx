@@ -28,7 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { Employee } from "@/types/employee.types.ts";
-import { getStatusColor } from "@/utils/utils";
+import { getStatusColor } from "@/utils/ui/getStatusColor";
 
 type Props = {
   editEmployee: Employee | null;

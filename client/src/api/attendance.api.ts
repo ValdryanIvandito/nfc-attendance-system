@@ -9,21 +9,30 @@ export const attendanceAPI = {
     date?: string
   ) => {
     const params = new URLSearchParams();
+
     params.append("page", String(page));
     params.append("limit", String(limit));
-    if (search) params.append("search", search);
-    if (department && department !== "ALL")
-      params.append("department", department);
-    params.append("date", String(date));
 
-    const res = await axiosClient.get(`/attendance?${params.toString()}`);
+    if (search) {
+      params.append("search", search);
+    }
+
+    if (department && department !== "ALL") {
+      params.append("department", department);
+    }
+
+    if (date) {
+      params.append("date", date);
+    }
+
+    const res = await axiosClient.get(`/attendance`, { params });
 
     return {
       page: res.data.data.page,
       limit: res.data.data.limit,
       total: res.data.data.total,
       totalPages: res.data.data.totalPages,
-      attendances: res.data.data.data, // array attendance
+      attendances: res.data.data.data,
     };
   },
 };

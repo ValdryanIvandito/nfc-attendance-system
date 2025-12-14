@@ -1,3 +1,4 @@
+// src/renderer/renderer.js
 window.addEventListener("DOMContentLoaded", () => {
   const message = document.getElementById("message");
   const icon = document.getElementById("card-icon");

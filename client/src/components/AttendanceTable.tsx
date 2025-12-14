@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { extractTime } from "@/utils/utils";
+import { toLocalTime } from "@/utils/date/toLocalTime";
 import { AttendanceAction } from "./AttendanceAction";
 import type { Attendance } from "@/types/attendance.type";
 
@@ -50,10 +50,10 @@ export const AttendanceTable: React.FC<Props> = ({ data, onDetail }) => {
                 {att.Employee.position}
               </TableCell>
               <TableCell className="font-medium">
-                {extractTime(att.check_in_at)}
+                {toLocalTime(att.check_in_at)}
               </TableCell>
               <TableCell className="font-medium hidden md:table-cell">
-                {att.check_out_at ? extractTime(att.check_out_at) : "N/A"}
+                {att.check_out_at ? toLocalTime(att.check_out_at) : "N/A"}
               </TableCell>
               <TableCell>
                 <AttendanceAction onDetail={() => onDetail(att)} />

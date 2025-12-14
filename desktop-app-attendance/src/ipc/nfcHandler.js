@@ -1,66 +1,44 @@
 // src/ipc/ipHandler.js
 const axios = require("axios");
+const { DateTime } = require("luxon");
 
 function setupIPC(mainWindow, nfcReader) {
   nfcReader(async (uid) => {
-    const API_BASE_URL = process.env.API_BASE_URL;
-    const API_KEY = process.env.API_KEY;
-
-    if (!API_BASE_URL) {
-      console.error("API_BASE_URL is missing in .env");
-      return mainWindow.webContents.send("error:api", {
-        status: false,
-        message: "API_BASE_URL is missing.",
-      });
-    }
-
-    const endpoint = `${API_BASE_URL.replace(/\/$/, "")}/v1/attendance`;
-
     try {
-      // --- Step 1: Check Existing Attendance ---
-      const checkResponse = await axios.get(endpoint, {
+      const API_BASE_URL = process.env.API_BASE_URL;
+      const API_KEY = process.env.API_KEY;
+
+      if (!API_BASE_URL) {
+        console.error("API_BASE_URL is missing in .env");
+        return mainWindow.webContents.send("error:api", {
+          status: false,
+          message: "API_BASE_URL is missing.",
+        });
+      }
+
+      const endpoint = `${API_BASE_URL.replace(/\/$/, "")}/v1/attendance`;
+      const datetime = DateTime.local().toISO();
+      const timezone = DateTime.local().zoneName;
+
+      // =====================
+      // CHECK ATTENDANCE
+      // =====================
+      const checkAtt = await axios.get(endpoint, {
         headers: {
           "Content-Type": "application/json",
           "x-api-key": API_KEY,
         },
-        params: { uid },
+        params: { uid, datetime, timezone },
       });
 
-      const data = checkResponse.data.data;
-      const { attendance_id, check_in_at, check_out_at } = data;
+      const att = checkAtt?.data?.data ?? null;
+      console.log("CHECK ATT:", att);
 
-      // Employee already checked in + out
-      if (check_in_at && check_out_at) {
-        return mainWindow.webContents.send(
-          "card:detected",
-          "Your attendance is already recorded."
-        );
-      }
-
-      // Employee checked in but not yet checked out → update attendance
-      if (check_in_at && !check_out_at) {
-        const updateResponse = await axios.patch(
-          endpoint,
-          { attendance_id },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              "x-api-key": API_KEY,
-            },
-          }
-        );
-
-        const fullName = updateResponse.data.data.Employee.full_name;
-
-        return mainWindow.webContents.send(
-          "card:detected",
-          `See you tomorrow, ${fullName}. Wishing you a great evening.`
-        );
-      }
-    } catch (err) {
-      // --- Step 2: Create New Attendance ---
-      try {
-        const createResponse = await axios.post(
+      // =====================
+      // CREATE (CHECK-IN)
+      // =====================
+      if (!att) {
+        const createAtt = await axios.post(
           endpoint,
           { uid },
           {
@@ -71,19 +49,80 @@ function setupIPC(mainWindow, nfcReader) {
           }
         );
 
-        const fullName = createResponse.data.data.Employee.full_name;
+        const fullName =
+          createAtt?.data?.data?.Employee?.full_name ?? "Employee";
 
         return mainWindow.webContents.send(
           "card:detected",
           `Welcome, ${fullName}. Wishing you a productive day at work.`
         );
-      } catch (apiErr) {
-        console.error("Failed to create attendance:", apiErr);
-        return mainWindow.webContents.send("error:api", {
-          status: false,
-          message: "Failed to create attendance.",
-        });
       }
+
+      // =====================
+      // UPDATE (CHECK-OUT)
+      // =====================
+      if (att.check_in_at && !att.check_out_at) {
+        const updateAtt = await axios.patch(
+          endpoint,
+          { attendance_id: att.attendance_id },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "x-api-key": API_KEY,
+            },
+          }
+        );
+
+        const fullName =
+          updateAtt?.data?.data?.Employee?.full_name ?? "Employee";
+
+        return mainWindow.webContents.send(
+          "card:detected",
+          `See you tomorrow, ${fullName}. Wishing you a great evening.`
+        );
+      }
+
+      // =====================
+      // ALREADY COMPLETED FOR DEVELOPMENT / TESTING
+      // =====================
+      const createAtt = await axios.post(
+        endpoint,
+        { uid },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": API_KEY,
+          },
+        }
+      );
+
+      const fullName = createAtt?.data?.data?.Employee?.full_name ?? "Employee";
+
+      return mainWindow.webContents.send(
+        "card:detected",
+        `Welcome, ${fullName}. Wishing you a productive day at work.`
+      );
+
+      // =====================
+      // ALREADY COMPLETED FOR PRODUCTION
+      // =====================
+      // return mainWindow.webContents.send(
+      //   "card:detected",
+      //   "Attendance already completed for today."
+      // );
+    } catch (error) {
+      console.error("IPC Attendance Error:", {
+        message: error.message,
+        status: error.response?.status,
+        data: error.response?.data,
+      });
+
+      return mainWindow.webContents.send("error:attendance", {
+        status: false,
+        message:
+          error.response?.data?.message ||
+          "Attendance service error. Please try again.",
+      });
     }
   });
 }

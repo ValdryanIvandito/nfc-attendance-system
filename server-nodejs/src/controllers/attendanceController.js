@@ -39,34 +39,15 @@ class AttendanceController {
 
   static async getAttendance(req, res, next) {
     try {
-      const { attendance_id, uid } = req.query;
+      const { uid, datetime, timezone } = req.query;
 
-      // === GET BY ID ===
-      if (attendance_id) {
-        const id = Number(attendance_id);
-
-        if (isNaN(id)) {
-          return response(res, 400, "attendance_id must be a number");
-        }
-
-        const attendance = await AttendanceService.getAttendanceById(
-          attendance_id
+      // === GET TODAY ATTENDANCE ===
+      if ((uid, datetime)) {
+        const attendance = await AttendanceService.getAttendanceToday(
+          uid,
+          datetime,
+          timezone
         );
-
-        if (!attendance) {
-          return response(res, 404, "Attendance not found");
-        }
-
-        return response(res, 200, "Success", attendance);
-      }
-
-      // === GET BY UID ===
-      if (uid) {
-        const attendance = await AttendanceService.getAttendanceByDateNow(uid);
-
-        if (!attendance) {
-          return response(res, 404, "Attendance not found");
-        }
 
         return response(res, 200, "Success", attendance);
       }

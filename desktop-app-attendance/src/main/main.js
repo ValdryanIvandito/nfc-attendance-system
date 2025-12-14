@@ -1,3 +1,4 @@
+// src/main/main.js
 const { app, BrowserWindow } = require("electron");
 const path = require("path");
 require("dotenv").config();
@@ -15,8 +16,8 @@ function createWindow() {
       preload: path.join(__dirname, "../preload/preload.js"),
       contextIsolation: true,
       nodeIntegration: false,
-      // webSecurity: false, // 🔥 Disable CORS
-      // allowRunningInsecureContent: true, // (optional) allow HTTP/HTTPS mix
+      webSecurity: false, // 🔥 Disable CORS
+      allowRunningInsecureContent: true, // (optional) allow HTTP/HTTPS mix
     },
   });
 

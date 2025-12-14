@@ -1,4 +1,4 @@
-// src/renderer/renderer.js
+// src/preload/preload.js
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld("nfcAPI", {

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useState } from "react";
 import { attendanceAPI } from "@/api/attendance.api";
-import { toLocalDateISO } from "@/utils/utils";
+import { toLocalDate } from "@/utils/date/toLocalDate";
 import type {
   Attendance,
   AttendanceListResponse,
@@ -12,7 +12,7 @@ export function useAttendances() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(6);
 
-  const [, setTotal] = useState(0); 
+  const [, setTotal] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
 
   const [search, setSearch] = useState("");
@@ -33,7 +33,7 @@ export function useAttendances() {
         limit,
         search,
         department,
-        toLocalDateISO(date)
+        toLocalDate(date)
       );
 
       setAttendanceData(res.attendances);
@@ -59,20 +59,14 @@ export function useAttendances() {
         if (!attendance.check_in_at) return prev;
 
         if (date) {
-          const selectedDateISO = toLocalDateISO(date);
-          const attendanceDateISO = toLocalDateISO(
+          const selectedDateISO = toLocalDate(date);
+          const attendanceDateISO = toLocalDate(
             new Date(attendance.check_in_at)
           );
           if (selectedDateISO !== attendanceDateISO) return prev;
         }
 
         return [attendance, ...prev].slice(0, limit);
-      });
-
-      setTotal((prev) => {
-        const nextTotal = prev + 1;
-        setTotalPages(Math.ceil(nextTotal / limit));
-        return nextTotal;
       });
     },
     [page, date, limit]

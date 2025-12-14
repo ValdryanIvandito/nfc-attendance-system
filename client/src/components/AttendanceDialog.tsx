@@ -8,7 +8,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { extractTime } from "@/utils/utils";
+import { toLocalTime } from "@/utils/date/toLocalTime";
 import type { Attendance } from "@/types/attendance.type";
 
 type Props = {
@@ -51,13 +51,13 @@ export const AttendanceDialog: React.FC<Props> = ({
               </div>
               <div className="flex justify-between border-b border-white/10 pb-2">
                 <span className="text-white">CHECK_IN:</span>
-                <span>{extractTime(detailAttendance.check_in_at)}</span>
+                <span>{toLocalTime(detailAttendance.check_in_at)}</span>
               </div>
               <div className="flex justify-between border-b border-white/10 pb-2">
                 <span className="text-white">CHECK_OUT:</span>
                 <span>
                   {detailAttendance.check_out_at
-                    ? extractTime(detailAttendance.check_out_at)
+                    ? toLocalTime(detailAttendance.check_out_at)
                     : "N/A"}
                 </span>
               </div>

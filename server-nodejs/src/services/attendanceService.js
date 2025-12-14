@@ -1,7 +1,8 @@
 // src/services/attendanceService.js
 import prisma from "../utils/prisma.js";
 import eventBus from "../utils/eventBus.js";
-import getStartEndOfDay from "../utils/getStartEndOfDay.js";
+import getDayDateRange from "../utils/getDayDateRange.js";
+import getDateRange from "..//utils/getDateRange.js";
 
 class AttendanceService {
   static async createAttendance(payload) {
@@ -27,6 +28,7 @@ class AttendanceService {
   }
 
   static async getAllAttendances({ page, limit, search, department, date }) {
+    const { start, end } = getDayDateRange(date);
     const skip = (page - 1) * limit;
     const where = {
       AND: [
@@ -60,8 +62,8 @@ class AttendanceService {
           ? [
               {
                 check_in_at: {
-                  gte: new Date(`${date}T00:00:00.000Z`),
-                  lte: new Date(`${date}T23:59:59.999Z`),
+                  gte: start,
+                  lte: end,
                 },
               },
             ]
@@ -89,19 +91,12 @@ class AttendanceService {
     };
   }
 
-  static async getAttendanceById(attendance_id) {
-    return prisma.attendance.findUnique({
-      where: { attendance_id: Number(attendance_id) },
-      include: { Employee: true },
-    });
-  }
-
-  static async getAttendanceByDateNow(uid) {
-    const { start, end } = getStartEndOfDay("Asia/Jakarta");
+  static async getAttendanceToday(uid, datetime, timezone) {
+    const { start, end } = getDateRange(datetime, timezone);
 
     return prisma.attendance.findFirst({
       where: {
-        uid: uid,
+        uid,
         check_in_at: {
           gte: start,
           lte: end,
@@ -110,7 +105,9 @@ class AttendanceService {
       include: {
         Employee: true,
       },
-      orderBy: { check_in_at: "asc" },
+      orderBy: {
+        check_in_at: "desc",
+      },
     });
   }
 }

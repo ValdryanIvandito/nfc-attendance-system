@@ -4,7 +4,7 @@
   "main": "src/main/main.js",
   "scripts": {
     "start": "electron .",
-    "dev": "nodemon --exec electron . --watch electron"
+    "dev": "nodemon"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +15,7 @@
     "dotenv": "^17.2.3",
     "electron": "^39.2.6",
     "express": "^5.2.1",
+    "luxon": "^3.7.2",
     "nfc-pcsc": "^0.8.1"
   },
   "devDependencies": {
