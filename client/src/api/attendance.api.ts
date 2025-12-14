@@ -1,4 +1,5 @@
 import { axiosClient } from "./_axiosClient";
+import { DateTime } from "luxon";
 
 export const attendanceAPI = {
   getAll: async (
@@ -7,8 +8,8 @@ export const attendanceAPI = {
     search?: string,
     department?: string,
     date?: string,
-    timezone: string
   ) => {
+    const timezone = DateTime.local().zoneName;
     const params = new URLSearchParams();
 
     params.append("page", String(page));
