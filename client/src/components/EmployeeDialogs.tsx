@@ -130,10 +130,6 @@ export const EmployeeDialogs: React.FC<Props> = ({
                 </span>
               </div>
               <div className="flex justify-between border-b border-white/10 pb-2">
-                <span className="text-white">UID:</span>
-                <span className="font-mono text-xs">{detailEmployee.uid}</span>
-              </div>
-              <div className="flex justify-between border-b border-white/10 pb-2">
                 <span className="text-white">Full Name:</span>
                 <span className="font-medium">{detailEmployee.full_name}</span>
               </div>

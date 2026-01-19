@@ -1,13 +1,11 @@
 <!-- src/renderer/pages/index.html -->
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Employee Registration</title>
-
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
 
@@ -33,11 +31,11 @@
         class="w-full px-3 py-3 border rounded-xl mb-4 bg-white focus:ring-2 focus:ring-blue-400 outline-none"
       >
         <option value="">Select department</option>
-        <option value="Engineering">Engineering</option>
-        <option value="Product">Product</option>
-        <option value="Marketing">Marketing</option>
-        <option value="Design">Design</option>
-        <option value="Operations">Operations</option>
+        <option value="ENGINEERING">ENGINEERING</option>
+        <option value="DESIGN">DESIGN</option>
+        <option value="PRODUCT">PRODUCT</option>
+        <option value="MARKETING">MARKETING</option>
+        <option value="OPERATIONS">OPERATIONS</option>
       </select>
 
       <!-- Position -->
@@ -65,42 +63,5 @@
     ></div>
 
     <script src="../renderer.js"></script>
-
-    <!-- Dependent dropdown logic -->
-    <script>
-      const departmentSelect = document.getElementById("department");
-      const positionSelect = document.getElementById("position");
-
-      const positionMap = {
-        Engineering: [
-          "Software Engineer",
-          "Frontend Developer",
-          "Backend Developer",
-          "DevOps Engineer",
-          "QA Engineer",
-        ],
-        Product: ["Product Manager", "Product Researcher", "Product Analyst"],
-        Marketing: ["Digital Marketer", "Content Writer", "SEO Specialist"],
-        Design: ["UI/UX Designer", "Graphic Designer", "Motion Designer"],
-        Operations: ["Operations Manager", "HR Specialist", "Admin Staff"],
-      };
-
-      departmentSelect.addEventListener("change", () => {
-        const selectedDepartment = departmentSelect.value;
-
-        // kosongkan posisi
-        positionSelect.innerHTML = `<option value="">Select position</option>`;
-
-        if (!selectedDepartment || !positionMap[selectedDepartment]) return;
-
-        // isi posisi berdasarkan department
-        positionMap[selectedDepartment].forEach((pos) => {
-          const option = document.createElement("option");
-          option.value = pos;
-          option.textContent = pos;
-          positionSelect.appendChild(option);
-        });
-      });
-    </script>
   </body>
 </html>

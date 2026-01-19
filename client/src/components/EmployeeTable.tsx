@@ -36,9 +36,6 @@ export const EmployeeTable: React.FC<Props> = ({
               <TableHead className="min-w-[60px] hidden xl:table-cell">
                 ID
               </TableHead>
-              <TableHead className="min-w-[100px] hidden xl:table-cell">
-                UID
-              </TableHead>
               <TableHead className="min-w-[150px]">NAME</TableHead>
               <TableHead className="min-w-[120px] hidden md:table-cell">
                 DEPARTMENT
@@ -60,9 +57,6 @@ export const EmployeeTable: React.FC<Props> = ({
               <TableRow key={emp.employee_id}>
                 <TableCell className="hidden xl:table-cell font-medium">
                   {emp.employee_id}
-                </TableCell>
-                <TableCell className="hidden xl:table-cell text-xs text-gray-400">
-                  {emp.uid}
                 </TableCell>
                 <TableCell className="font-medium">{emp.full_name}</TableCell>
                 <TableCell className="hidden md:table-cell">
@@ -102,9 +96,6 @@ export const EmployeeTable: React.FC<Props> = ({
               <TableHead className="min-w-[60px] hidden xl:table-cell">
                 ID
               </TableHead>
-              <TableHead className="min-w-[100px] hidden xl:table-cell">
-                UID
-              </TableHead>
               <TableHead className="min-w-[150px]">NAME</TableHead>
               <TableHead className="min-w-[120px] hidden md:table-cell">
                 DEPARTMENT
@@ -121,9 +112,6 @@ export const EmployeeTable: React.FC<Props> = ({
               <TableRow key={emp.employee_id}>
                 <TableCell className="hidden xl:table-cell font-medium">
                   {emp.employee_id}
-                </TableCell>
-                <TableCell className="hidden xl:table-cell text-xs text-gray-400">
-                  {emp.uid}
                 </TableCell>
                 <TableCell className="font-medium">{emp.full_name}</TableCell>
                 <TableCell className="hidden md:table-cell">

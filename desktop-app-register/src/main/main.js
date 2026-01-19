@@ -2,7 +2,7 @@
 require("dotenv").config();
 const path = require("path");
 const { app, BrowserWindow } = require("electron");
-const registerIPC = require("../ipc/ipcHandler");
+const registerIPC = require("../ipc/registerIPC");
 
 function createWindow() {
   const mainWindow = new BrowserWindow({

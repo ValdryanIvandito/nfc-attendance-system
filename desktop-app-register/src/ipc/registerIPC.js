@@ -1,23 +1,22 @@
 // src/ipc/ipcHandler.js
 
 const { ipcMain } = require("electron");
-const { startNFC, stopNFC } = require("../utils/nfcReader");
+const { startReadNFC, stopReadNFC } = require("../utils/readNFC");
 const fetch = require("node-fetch");
 
 function registerIPC(mainWindow) {
   // Start NFC
   ipcMain.on("nfc:start", () => {
-    console.log("Starting NFC listener...");
-    startNFC((uid) => {
-      console.log("Card detected (UID):", uid);
+    console.log("\nStarting NFC listener...");
+    startReadNFC((uid) => {
       mainWindow.webContents.send("nfc:uid", uid);
     });
   });
 
   // Stop NFC
   ipcMain.on("nfc:stop", () => {
-    console.log("Stopping NFC listener...");
-    stopNFC();
+    console.log("\nStopping NFC listener...");
+    stopReadNFC();
   });
 
   // Create employee (performed in main to keep API_KEY on backend)
@@ -42,11 +41,11 @@ function registerIPC(mainWindow) {
             "x-api-key": API_KEY,
           },
           body: JSON.stringify(payload),
-        }
+        },
       );
 
       const data = await res.json();
-      console.log("RESPONSE API", data);
+      console.log("\nResponse", data);
 
       if (data.status === 201) {
         return {

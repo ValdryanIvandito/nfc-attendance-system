@@ -34,17 +34,22 @@ window.addEventListener("DOMContentLoaded", () => {
     const positionSelect = document.getElementById("position");
 
     const positionMap = {
-      Engineering: [
-        "Software Engineer",
-        "Frontend Developer",
-        "Backend Developer",
-        "DevOps Engineer",
-        "QA Engineer",
+      ENGINEERING: [
+        "FULLSTACK_DEVELOPER",
+        "FRONTEND_DEVELOPER",
+        "BACKEND_DEVELOPER",
+        "DEVOPS_ENGINEER",
+        "QA_ENGINEER",
       ],
-      Product: ["Product Manager", "Product Researcher", "Product Analyst"],
-      Marketing: ["Digital Marketer", "Content Writer", "SEO Specialist"],
-      Design: ["UI/UX Designer", "Graphic Designer", "Motion Designer"],
-      Operations: ["Operations Manager", "HR Specialist", "Admin Staff"],
+      DESIGN: ["UI_UX_DESIGNER", "GRAPHIC_DESIGNER", "MOTION_DESIGNER"],
+      PRODUCT: ["PRODUCT_MANAGER", "PRODUCT_RESEARCHER", "PRODUCT_ANALYST"],
+      MARKETING: ["DIGITAL_MARKETER", "CONTENT_WRITER", "SEO_SPECIALIST"],
+      OPERATIONS: [
+        "OPERATIONS_MANAGER",
+        "OPERATION_STAFF",
+        "HR_MANAGER",
+        "HR_STAFF",
+      ],
     };
 
     // Listener untuk department
@@ -103,7 +108,7 @@ window.addEventListener("DOMContentLoaded", () => {
       statusText.classList.remove(
         "text-green-600",
         "text-red-600",
-        "text-blue-600"
+        "text-blue-600",
       );
     }
 
@@ -138,14 +143,14 @@ window.addEventListener("DOMContentLoaded", () => {
         } else {
           updateStatus(
             "Registration Failed!\nPlease try with a new NFC Card.",
-            "text-red-600"
+            "text-red-600",
           );
           retryButton.classList.remove("hidden");
         }
       } catch (err) {
         updateStatus(
           "Registration Failed!\nPlease contact technical support.",
-          "text-red-600"
+          "text-red-600",
         );
       }
     });
