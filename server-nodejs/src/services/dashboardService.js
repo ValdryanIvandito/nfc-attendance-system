@@ -5,23 +5,26 @@ import getDateRange from "../utils/getDateRange.js";
 
 const LEAVE_STATUSES = [
   "SICK",
-  "VACATION",
-  "EMERGENCY",
   "MATERNITY",
+  "PATERNITY",
+  "ANNUAL",
+  "BEREAVEMENT",
+  "MARRIAGE",
+  "PARENTAL",
+  "STUDY",
+  "RELIGIOUS",
 ];
 
 class DashboardService {
   static async getDashboardData(datetime, timezone) {
     const { start, end } = getDateRange(datetime, timezone);
 
-    const totalEmployee = await prisma.employee.count();
-
-    const totalInactive = await prisma.employee.count({
-      where: { status: "INACTIVE" },
+    const totalActive = await prisma.employee.count({
+      where: { employee_status: "ACTIVE" },
     });
 
-    const totalActive = await prisma.employee.count({
-      where: { status: { not: "INACTIVE" } },
+    const totalInactive = await prisma.employee.count({
+      where: { employee_status: "INACTIVE" },
     });
 
     const attendanceToday = await prisma.attendance.findMany({
@@ -42,46 +45,55 @@ class DashboardService {
     const notPresentToday = Math.max(totalActive - presentToday, 0);
 
     const leaveCounts = await prisma.employee.groupBy({
-      by: ["status"],
+      by: ["leave_status"],
       where: {
-        status: {
+        leave_status: {
+          not: null,
           in: LEAVE_STATUSES,
         },
       },
       _count: {
-        status: true,
+        leave_status: true,
       },
     });
 
     const leaveMap = {
       SICK: 0,
-      VACATION: 0,
-      EMERGENCY: 0,
-      FUNERAL: 0,
       MATERNITY: 0,
+      PATERNITY: 0,
+      ANNUAL: 0,
+      BEREAVEMENT: 0,
+      MARRIAGE: 0,
+      PARENTAL: 0,
+      STUDY: 0,
+      RELIGIOUS: 0,
     };
 
     leaveCounts.forEach((item) => {
-      leaveMap[item.status] = item._count.status;
+      leaveMap[item.leave_status] = item._count.leave_status;
     });
 
     const totalLeave = Object.values(leaveMap).reduce(
       (sum, val) => sum + val,
-      0
+      0,
     );
 
     // 5. Final response
     return {
-      totalEmployee,
       presentToday,
       notPresentToday,
       totalActive,
       totalInactive,
       totalLeave,
       totalSick: leaveMap.SICK,
-      totalVacation: leaveMap.VACATION,
-      totalEmergency: leaveMap.EMERGENCY,
       totalMaternity: leaveMap.MATERNITY,
+      totalPaternity: leaveMap.PATERNITY,
+      totalAnnual: leaveMap.ANNUAL,
+      totalBereavement: leaveMap.BEREAVEMENT,
+      totalMarriage: leaveMap.MARRIAGE,
+      totalParental: leaveMap.PARENTAL,
+      totalStudy: leaveMap.STUDY,
+      totalReligious: leaveMap.RELIGIOUS,
     };
   }
 }

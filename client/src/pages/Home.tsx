@@ -1,122 +1,113 @@
 import { useDashboard } from "@/hooks/useDashboard";
 import { StatCard } from "@/components/StatCard";
-import { DateTime } from "luxon";
 import {
   Users,
-  UserX,
+  UserCheck,
   HeartPulse,
   Baby,
   Plane,
   AlertTriangle,
-  Percent,
-  Clock,
-  Calendar,
+  Heart,
+  GraduationCap,
+  Landmark,
 } from "lucide-react";
-
-const now = DateTime.local();
 
 export default function Home() {
   const { dashboardData } = useDashboard();
-  console.log(dashboardData);
+
   return (
-    <>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {/* ================= HEADCOUNT ================= */}
-        <StatCard
-          title="Total Employee"
-          value={Number(dashboardData?.totalEmployee ?? 0)}
-          accent="text-blue-400"
-          icon={<Users className="h-6 w-6 text-blue-400" />}
-        />
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {/* ================= HEADCOUNT ================= */}
 
-        <StatCard
-          title="Active"
-          value={Number(dashboardData?.totalActive ?? 0)}
-          accent="text-emerald-400"
-          icon={<Users className="h-6 w-6 text-emerald-400" />}
-        />
+      <StatCard
+        title="Active Employees"
+        value={Number(dashboardData?.totalActive ?? 0)}
+        accent="text-emerald-400"
+        icon={<Users className="h-6 w-6 text-emerald-400" />}
+      />
 
-        <StatCard
-          title="Inactive"
-          value={Number(dashboardData?.totalInactive ?? 0)}
-          accent="text-slate-300"
-          icon={<UserX className="h-6 w-6 text-slate-300" />}
-        />
+      {/* ================= ATTENDANCE ================= */}
 
-        {/* ================= ATTENDANCE KPI ================= */}
-        <StatCard
-          title="Attendance Today"
-          value={
-            dashboardData?.totalActive
-              ? `${Math.round(
-                  (Number(dashboardData.presentToday) /
-                    Number(dashboardData.totalActive)) *
-                    100
-                )}%`
-              : "0%"
-          }
-          accent="text-violet-400"
-          icon={<Percent className="h-6 w-6 text-violet-400" />}
-        />
+      <StatCard
+        title="Present Today"
+        value={Number(dashboardData?.presentToday ?? 0)}
+        accent="text-sky-400"
+        icon={<UserCheck className="h-6 w-6 text-sky-400" />}
+      />
 
-        <StatCard
-          title="Present Today"
-          value={Number(dashboardData?.presentToday ?? 0)}
-          accent="text-sky-400"
-          icon={<Users className="h-6 w-6 text-sky-400" />}
-        />
+      {/* ================= LEAVE SUMMARY ================= */}
 
-        {/* ================= LEAVE BREAKDOWN ================= */}
-        <StatCard
-          title="Total Leave"
-          value={Number(dashboardData?.totalLeave ?? 0)}
-          accent="text-amber-400"
-          icon={<Plane className="h-6 w-6 text-amber-400" />}
-        />
+      <StatCard
+        title="Total Leave"
+        value={Number(dashboardData?.totalLeave ?? 0)}
+        accent="text-amber-400"
+        icon={<Plane className="h-6 w-6 text-amber-400" />}
+      />
 
-        <StatCard
-          title="Sick Leave"
-          value={Number(dashboardData?.totalSick ?? 0)}
-          accent="text-rose-400"
-          icon={<HeartPulse className="h-6 w-6 text-rose-400" />}
-        />
+      {/* ================= LEAVE DETAILS ================= */}
 
-        <StatCard
-          title="Maternity Leave"
-          value={Number(dashboardData?.totalMaternity ?? 0)}
-          accent="text-pink-400"
-          icon={<Baby className="h-6 w-6 text-pink-400" />}
-        />
+      <StatCard
+        title="Annual Leave"
+        value={Number(dashboardData?.totalAnnual ?? 0)}
+        accent="text-blue-400"
+        icon={<Plane className="h-6 w-6 text-blue-400" />}
+      />
 
-        <StatCard
-          title="Vacation Leave"
-          value={Number(dashboardData?.totalVacation ?? 0)}
-          accent="text-yellow-400"
-          icon={<Plane className="h-6 w-6 text-yellow-400" />}
-        />
+      <StatCard
+        title="Sick Leave"
+        value={Number(dashboardData?.totalSick ?? 0)}
+        accent="text-red-400"
+        icon={<HeartPulse className="h-6 w-6 text-red-400" />}
+      />
 
-        <StatCard
-          title="Emergency Leave"
-          value={Number(dashboardData?.totalEmergency ?? 0)}
-          accent="text-orange-400"
-          icon={<AlertTriangle className="h-6 w-6 text-orange-400" />}
-        />
+      <StatCard
+        title="Maternity Leave"
+        value={Number(dashboardData?.totalMaternity ?? 0)}
+        accent="text-pink-400"
+        icon={<Baby className="h-6 w-6 text-pink-400" />}
+      />
 
-        {/* ================= CONTEXT ================= */}
-        <StatCard
-          title="Time"
-          value={now.toFormat("HH:mm a")}
-          accent="text-indigo-400"
-          icon={<Clock className="h-6 w-6 text-indigo-400" />}
-        />
+      <StatCard
+        title="Paternity Leave"
+        value={Number(dashboardData?.totalPaternity ?? 0)}
+        accent="text-cyan-400"
+        icon={<Baby className="h-6 w-6 text-cyan-400" />}
+      />
 
-        <StatCard
-          title="Date"
-          value={now.toFormat("dd LLL yy")}
-          accent="text-emerald-400"
-          icon={<Calendar className="h-6 w-6 text-emerald-400" />}
-        />
-      </div>
-    </>
+      <StatCard
+        title="Bereavement Leave"
+        value={Number(dashboardData?.totalBereavement ?? 0)}
+        accent="text-purple-400"
+        icon={<AlertTriangle className="h-6 w-6 text-purple-400" />}
+      />
+
+      <StatCard
+        title="Marriage Leave"
+        value={Number(dashboardData?.totalMarriage ?? 0)}
+        accent="text-rose-400"
+        icon={<Heart className="h-6 w-6 text-rose-400" />}
+      />
+
+      <StatCard
+        title="Parental Leave"
+        value={Number(dashboardData?.totalParental ?? 0)}
+        accent="text-indigo-400"
+        icon={<Baby className="h-6 w-6 text-indigo-400" />}
+      />
+
+      <StatCard
+        title="Study Leave"
+        value={Number(dashboardData?.totalStudy ?? 0)}
+        accent="text-teal-400"
+        icon={<GraduationCap className="h-6 w-6 text-teal-400" />}
+      />
+
+      <StatCard
+        title="Religious Leave"
+        value={Number(dashboardData?.totalReligious ?? 0)}
+        accent="text-orange-400"
+        icon={<Landmark className="h-6 w-6 text-orange-400" />}
+      />
+    </div>
   );
 }

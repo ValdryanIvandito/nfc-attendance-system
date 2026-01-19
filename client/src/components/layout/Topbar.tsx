@@ -44,10 +44,11 @@ import { Menu, Bell } from "lucide-react";
 import type { FC } from "react";
 
 interface TopbarProps {
+  titlePage: string;
   onOpenMobile: () => void;
 }
 
-const Topbar: FC<TopbarProps> = ({ onOpenMobile }) => {
+const Topbar: FC<TopbarProps> = ({ titlePage, onOpenMobile }) => {
   return (
     <header className="sticky top-0 z-30 w-full h-14 sm:h-16 bg-[#0F172A] border-b border-white/10 flex items-center justify-between px-3 sm:px-4 lg:px-6">
       {/* LEFT SECTION */}
@@ -63,7 +64,7 @@ const Topbar: FC<TopbarProps> = ({ onOpenMobile }) => {
 
         {/* Page Title - Responsive text size */}
         <div className="text-white font-semibold text-base sm:text-lg">
-          Dashboard
+          {titlePage}
         </div>
       </div>
 

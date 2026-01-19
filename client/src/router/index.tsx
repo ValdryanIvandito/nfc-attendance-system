@@ -8,7 +8,7 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <MainLayout>
+      <MainLayout titlePage="Summary Dashboard">
         <Home />
       </MainLayout>
     ),
@@ -16,7 +16,7 @@ export const router = createBrowserRouter([
   {
     path: "/employee",
     element: (
-      <MainLayout>
+      <MainLayout titlePage="Employee Management">
         <Employee />
       </MainLayout>
     ),
@@ -24,7 +24,7 @@ export const router = createBrowserRouter([
   {
     path: "/attendance",
     element: (
-      <MainLayout>
+      <MainLayout titlePage="Attendance Records">
         <Attendance />
       </MainLayout>
     ),
