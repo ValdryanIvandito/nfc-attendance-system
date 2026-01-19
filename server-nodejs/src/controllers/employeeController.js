@@ -16,7 +16,6 @@ class EmployeeController {
         full_name,
         department,
         position,
-        status: "ACTIVE",
       });
 
       return response(res, 201, "Employee created successfully", result);
@@ -27,7 +26,7 @@ class EmployeeController {
 
   static async updateEmployee(req, res, next) {
     try {
-      const { employee_id, status } = req.body;
+      const { employee_id, leave_status } = req.body;
 
       if (!employee_id) {
         return response(res, 400, "employee_id is required");
@@ -35,10 +34,15 @@ class EmployeeController {
 
       const result = await EmployeeService.updateEmployee({
         employee_id,
-        status,
+        leave_status,
       });
 
-      return response(res, 200, "Employee updated successfully", result);
+      return response(
+        res,
+        200,
+        "Employee leave status updated successfully",
+        result,
+      );
     } catch (error) {
       next(error);
     }
@@ -56,7 +60,7 @@ class EmployeeController {
         employee_id,
       });
 
-      return response(res, 200, "Employee status is RESIGN", result);
+      return response(res, 200, "Employee status updated successfully", result);
     } catch (error) {
       next(error);
     }
@@ -100,7 +104,8 @@ class EmployeeController {
         limit = 10,
         search = "",
         department = "",
-        status = "",
+        leave_status = "",
+        employee_status = "",
       } = req.query;
 
       const result = await EmployeeService.getEmployees({
@@ -108,7 +113,8 @@ class EmployeeController {
         limit: Number(limit),
         search,
         department,
-        status,
+        leave_status,
+        employee_status,
       });
 
       return response(res, 200, "Success", result);

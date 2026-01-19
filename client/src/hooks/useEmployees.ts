@@ -9,6 +9,7 @@ type UseEmployeesParams = {
   initialLimit?: number;
   initialSearch?: string;
   initialDepartment?: string;
+  initialLeave?: string;
   initialStatus?: string;
 };
 
@@ -17,7 +18,8 @@ export function useEmployees({
   initialLimit = 6,
   initialSearch = "",
   initialDepartment = "ALL",
-  initialStatus = "ALL",
+  initialLeave = "ALL",
+  initialStatus = "ACTIVE",
 }: UseEmployeesParams = {}) {
   const [employeeData, setEmployeeData] = useState<Employee[]>([]);
   const [page, setPage] = useState(initialPage);
@@ -26,6 +28,7 @@ export function useEmployees({
 
   const [search, setSearch] = useState(initialSearch);
   const [department, setDepartment] = useState(initialDepartment);
+  const [leave, setLeave] = useState(initialLeave);
   const [status, setStatus] = useState(initialStatus);
 
   const [loading, setLoading] = useState(false);
@@ -40,7 +43,8 @@ export function useEmployees({
         limit,
         search,
         department,
-        status
+        leave,
+        status,
       );
       setEmployeeData(res.employees);
       setTotalPages(res.totalPages);
@@ -49,7 +53,7 @@ export function useEmployees({
     } finally {
       setLoading(false);
     }
-  }, [page, limit, search, department, status]);
+  }, [page, limit, search, department, leave, status]);
 
   useEffect(() => {
     fetch();
@@ -65,16 +69,16 @@ export function useEmployees({
       // after delete, refetch current page
       await fetch();
     },
-    [fetch]
+    [fetch],
   );
 
   const update = useCallback(
-    async (payload: { employee_id: number; status: string }) => {
-      await employeeAPI.update(payload);
+    async (employee_id: number, leave: string) => {
+      await employeeAPI.update(employee_id, leave);
       // after update, refetch
       await fetch();
     },
-    [fetch]
+    [fetch],
   );
 
   return {
@@ -88,6 +92,8 @@ export function useEmployees({
     setSearch,
     department,
     setDepartment,
+    leave,
+    setLeave,
     status,
     setStatus,
     loading,

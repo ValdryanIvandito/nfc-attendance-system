@@ -11,18 +11,25 @@ class EmployeeService {
   static async updateEmployee(payload) {
     return prisma.employee.update({
       where: { employee_id: Number(payload.employee_id) },
-      data: { status: payload.status },
+      data: { leave_status: payload.leave_status },
     });
   }
 
   static async deleteEmployee(payload) {
     return prisma.employee.update({
       where: { employee_id: Number(payload.employee_id) },
-      data: { status: "INACTIVE" },
+      data: { leave_status: null, employee_status: "INACTIVE" },
     });
   }
 
-  static async getEmployees({ page, limit, search, department, status }) {
+  static async getEmployees({
+    page,
+    limit,
+    search,
+    department,
+    leave_status,
+    employee_status,
+  }) {
     const skip = (page - 1) * limit;
     const where = {
       AND: [
@@ -37,7 +44,8 @@ class EmployeeService {
         department
           ? { department: { equals: department, mode: "insensitive" } }
           : {},
-        status ? { status } : {},
+        leave_status ? { leave_status } : {},
+        employee_status ? { employee_status } : {},
       ],
     };
 

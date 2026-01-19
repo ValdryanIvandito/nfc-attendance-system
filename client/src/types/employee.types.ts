@@ -5,7 +5,8 @@ export type Employee = {
   full_name: string;
   department: string;
   position: string;
-  status: string;
+  leave_status: string;
+  employee_status: string;
   created_at: string;
   update_at?: string | null;
 };

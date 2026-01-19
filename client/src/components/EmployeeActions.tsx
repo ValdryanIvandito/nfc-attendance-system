@@ -4,12 +4,14 @@ import { Info, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 type Props = {
+  status: string;
   onDetail: () => void;
   onEdit: () => void;
   onDeleteClick: () => void; // only sets "to delete" id, actual delete handled in dialog/hook
 };
 
 export const EmployeeActions: React.FC<Props> = ({
+  status,
   onDetail,
   onEdit,
   onDeleteClick,
@@ -25,23 +27,31 @@ export const EmployeeActions: React.FC<Props> = ({
         <span className="hidden sm:inline ml-1">Detail</span>
       </Button>
 
-      <Button
-        size="sm"
-        className="bg-transparent hover:bg-blue-500/10 text-blue-400 hover:text-blue-300 px-2"
-        onClick={onEdit}
-      >
-        <Pencil className="w-4 h-4" />
-        <span className="hidden sm:inline ml-1">Edit</span>
-      </Button>
+      {status === "ACTIVE" && (
+        <>
+          <Button
+            size="sm"
+            className="bg-transparent hover:bg-blue-500/10 text-blue-400 hover:text-blue-300 px-2"
+            onClick={onEdit}
+          >
+            <Pencil className="w-4 h-4" />
+            <span className="hidden sm:inline ml-1">Edit</span>
+          </Button>
+        </>
+      )}
 
-      <Button
-        size="sm"
-        className="bg-transparent hover:bg-red-500/10 text-red-500 hover:text-red-400 px-2"
-        onClick={onDeleteClick}
-      >
-        <Trash2 className="w-4 h-4" />
-        <span className="hidden sm:inline ml-1">Delete</span>
-      </Button>
+      {status === "ACTIVE" && (
+        <>
+          <Button
+            size="sm"
+            className="bg-transparent hover:bg-red-500/10 text-red-500 hover:text-red-400 px-2"
+            onClick={onDeleteClick}
+          >
+            <Trash2 className="w-4 h-4" />
+            <span className="hidden sm:inline ml-1">Delete</span>
+          </Button>
+        </>
+      )}
     </div>
   );
 };

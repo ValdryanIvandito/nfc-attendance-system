@@ -9,15 +9,16 @@ datasource db {
 }
 
 model Employee {
-  employee_id Int    @id @default(autoincrement())
-  uid         String @unique
-  full_name   String
-  department  String
-  position    String
-  status      String
-  created_at DateTime     @default(now())
-  update_at  DateTime?
-  Attendance Attendance[]
+  employee_id     Int            @id @default(autoincrement())
+  uid             String         @unique
+  full_name       String
+  department      Department
+  position        Position
+  leave_status    LeaveStatus?   @default(NO_LEAVE)
+  employee_status EmployeeStatus @default(ACTIVE)
+  created_at      DateTime       @default(now())
+  updated_at      DateTime?
+  Attendance      Attendance[]
 }
 
 model Attendance {
@@ -26,4 +27,56 @@ model Attendance {
   check_in_at   DateTime  @default(now())
   check_out_at  DateTime?
   Employee      Employee  @relation(fields: [uid], references: [uid])
+}
+
+enum Department {
+  ENGINEERING
+  DESIGN
+  PRODUCT
+  MARKETING
+  OPERATIONS
+}
+
+enum Position {
+  FULLSTACK_DEVELOPER
+  FRONTEND_DEVELOPER
+  BACKEND_DEVELOPER
+  DEVOPS_ENGINEER
+  QA_ENGINEER
+
+  UI_UX_DESIGNER
+  GRAPHIC_DESIGNER
+  MOTION_DESIGNER
+
+  PRODUCT_MANAGER
+  PRODUCT_RESEARCHER
+  PRODUCT_ANALYST
+
+  DIGITAL_MARKETER
+  CONTENT_WRITER
+  SEO_SPECIALIST
+
+  OPERATIONS_MANAGER
+  OPERATIONS_STAFF
+
+  HR_MANAGER
+  HR_STAFF
+}
+
+enum LeaveStatus {
+  NO_LEAVE
+  SICK
+  MATERNITY
+  PATERNITY
+  ANNUAL
+  BEREAVEMENT
+  MARRIAGE
+  PARENTAL
+  STUDY
+  RELIGIOUS
+}
+
+enum EmployeeStatus {
+  ACTIVE
+  INACTIVE
 }

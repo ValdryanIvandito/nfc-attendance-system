@@ -19,6 +19,8 @@ export default function EmployeePage() {
     setSearch,
     department,
     setDepartment,
+    leave,
+    setLeave,
     status,
     setStatus,
     remove,
@@ -27,7 +29,7 @@ export default function EmployeePage() {
 
   // local UI state for dialogs
   const [editEmployee, setEditEmployee] = useState<Employee | null>(null);
-  const [newStatus, setNewStatus] = useState<string>("");
+  const [newLeave, setNewLeave] = useState<string>("");
   const [detailEmployee, setDetailEmployee] = useState<Employee | null>(null);
   const [deleteEmployeeId, setDeleteEmployeeId] = useState<number | null>(null);
 
@@ -36,17 +38,14 @@ export default function EmployeePage() {
 
   const handleEdit = (emp: Employee) => {
     setEditEmployee(emp);
-    setNewStatus(emp.status);
+    setNewLeave(emp.leave_status);
   };
 
   const handleUpdate = async () => {
     if (!editEmployee) return;
     try {
       setIsUpdating(true);
-      await update({
-        employee_id: editEmployee.employee_id,
-        status: newStatus,
-      });
+      await update(editEmployee.employee_id, newLeave);
     } finally {
       setIsUpdating(false);
       setEditEmployee(null);
@@ -77,6 +76,11 @@ export default function EmployeePage() {
           setDepartment(v);
           setPage(1);
         }}
+        leave={leave}
+        onLeave={(v) => {
+          setLeave(v);
+          setPage(1);
+        }}
         status={status}
         onStatus={(v) => {
           setStatus(v);
@@ -86,6 +90,7 @@ export default function EmployeePage() {
 
       <Card className="bg-[#0F172A] text-white border border-white/10 mb-4 h-112 flex justify-between">
         <EmployeeTable
+          status={status}
           data={employeeData}
           onEdit={handleEdit}
           onDelete={(id) => setDeleteEmployeeId(id)}
@@ -147,8 +152,8 @@ export default function EmployeePage() {
 
       <EmployeeDialogs
         editEmployee={editEmployee}
-        newStatus={newStatus}
-        setNewStatus={setNewStatus}
+        newLeave={newLeave}
+        setNewLeave={setNewLeave}
         onUpdate={handleUpdate}
         isUpdating={isUpdating}
         onCancelEdit={() => setEditEmployee(null)}

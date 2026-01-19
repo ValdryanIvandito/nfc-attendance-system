@@ -32,8 +32,8 @@ import { getStatusColor } from "@/utils/ui/getStatusColor";
 
 type Props = {
   editEmployee: Employee | null;
-  newStatus: string;
-  setNewStatus: (v: string) => void;
+  newLeave: string;
+  setNewLeave: (v: string) => void;
   onUpdate: () => Promise<void>;
   isUpdating: boolean;
   onCancelEdit: () => void;
@@ -49,8 +49,8 @@ type Props = {
 
 export const EmployeeDialogs: React.FC<Props> = ({
   editEmployee,
-  newStatus,
-  setNewStatus,
+  newLeave,
+  setNewLeave,
   onUpdate,
   isUpdating,
   onCancelEdit,
@@ -73,18 +73,21 @@ export const EmployeeDialogs: React.FC<Props> = ({
             </DialogDescription>
           </DialogHeader>
 
-          <Select value={newStatus} onValueChange={(v) => setNewStatus(v)}>
+          <Select value={newLeave} onValueChange={(v) => setNewLeave(v)}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select status" />
             </SelectTrigger>
             <SelectContent className="bg-slate-800 text-white">
-              <SelectItem value="ACTIVE">ACTIVE</SelectItem>
+              <SelectItem value="NO_LEAVE">NO_LEAVE</SelectItem>
               <SelectItem value="SICK">SICK</SelectItem>
-              <SelectItem value="FUNERAL">FUNERAL</SelectItem>
               <SelectItem value="MATERNITY">MATERNITY</SelectItem>
-              <SelectItem value="VACATION">VACATION</SelectItem>
-              <SelectItem value="EMERGENCY">EMERGENCY</SelectItem>
-              <SelectItem value="INACTIVE">INACTIVE</SelectItem>
+              <SelectItem value="PATERNITY">PATERNITY</SelectItem>
+              <SelectItem value="ANNUAL">ANNUAL</SelectItem>
+              <SelectItem value="BEREAVEMENT">BEREAVEMENT</SelectItem>
+              <SelectItem value="MARRIAGE">MARRIAGE</SelectItem>
+              <SelectItem value="PARENTAL">PARENTAL</SelectItem>
+              <SelectItem value="STUDY">STUDY</SelectItem>
+              <SelectItem value="RELIGIOUS">RELIGIOUS</SelectItem>
             </SelectContent>
           </Select>
 
@@ -111,7 +114,11 @@ export const EmployeeDialogs: React.FC<Props> = ({
       <Dialog open={!!detailEmployee} onOpenChange={onCloseDetail}>
         <DialogContent className="sm:max-w-[425px] bg-slate-800 text-white border border-white/10">
           <DialogHeader>
-            <DialogTitle>Employee Detail</DialogTitle>
+            <DialogTitle>
+              {detailEmployee?.employee_status === "ACTIVE"
+                ? "Active Employee Detail"
+                : "Inactive Employee Detail"}
+            </DialogTitle>
           </DialogHeader>
 
           {detailEmployee && (
@@ -139,14 +146,20 @@ export const EmployeeDialogs: React.FC<Props> = ({
                 <span>{detailEmployee.position}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-white">Status:</span>
-                <span
-                  className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(
-                    detailEmployee.status
-                  )}`}
-                >
-                  {detailEmployee.status}
-                </span>
+                {detailEmployee.employee_status === "ACTIVE" && (
+                  <>
+                    <span className="text-white">Leave Status:</span>
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(
+                        detailEmployee.leave_status,
+                      )}`}
+                    >
+                      {detailEmployee.leave_status
+                        ? detailEmployee.leave_status
+                        : "NO_LEAVE"}
+                    </span>
+                  </>
+                )}
               </div>
             </div>
           )}
@@ -172,8 +185,7 @@ export const EmployeeDialogs: React.FC<Props> = ({
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Employee?</AlertDialogTitle>
             <AlertDialogDescription className="text-white">
-              Are you sure you want to delete this employee? This action cannot
-              be undone.
+              Are you sure you want to delete this employee ?
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

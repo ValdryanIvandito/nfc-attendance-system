@@ -1,6 +1,5 @@
 // src/api/employee.api.ts
 import { axiosClient } from "./_axiosClient";
-import type { Employee } from "@/types/employee.types.ts";
 
 export const employeeAPI = {
   getAll: async (
@@ -8,7 +7,8 @@ export const employeeAPI = {
     limit: number,
     search?: string,
     department?: string,
-    status?: string
+    leave?: string,
+    status?: string,
   ) => {
     const params = new URLSearchParams();
     params.append("page", String(page));
@@ -17,7 +17,8 @@ export const employeeAPI = {
     if (search) params.append("search", search);
     if (department && department !== "ALL")
       params.append("department", department);
-    if (status && status !== "ALL") params.append("status", status);
+    if (leave && leave !== "ALL") params.append("leave_status", leave);
+    if (status) params.append("employee_status", status);
 
     const res = await axiosClient.get(`/employee?${params.toString()}`);
 
@@ -37,8 +38,11 @@ export const employeeAPI = {
     return res.data.data;
   },
 
-  update: async (data: Partial<Employee>) => {
-    const res = await axiosClient.patch("/employee", data);
+  update: async (employee_id: number, leave: string) => {
+    const res = await axiosClient.patch("/employee", {
+      employee_id,
+      leave_status: leave,
+    });
     return res.data.data;
   },
 };

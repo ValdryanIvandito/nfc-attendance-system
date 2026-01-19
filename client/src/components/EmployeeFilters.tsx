@@ -17,6 +17,8 @@ type Props = {
   onSearch: (v: string) => void;
   department: string;
   onDepartment: (v: string) => void;
+  leave: string;
+  onLeave: (v: string) => void;
   status: string;
   onStatus: (v: string) => void;
 };
@@ -25,6 +27,7 @@ export const EmployeeFilters: React.FC<Props> = ({
   search,
   onSearch,
   onDepartment,
+  onLeave,
   onStatus,
 }) => {
   return (
@@ -51,11 +54,35 @@ export const EmployeeFilters: React.FC<Props> = ({
                 <SelectGroup>
                   <SelectLabel>Select Department</SelectLabel>
                   <SelectItem value="ALL">All</SelectItem>
-                  <SelectItem value="Engineering">Engineering</SelectItem>
-                  <SelectItem value="Product">Product</SelectItem>
-                  <SelectItem value="Marketing">Marketing</SelectItem>
-                  <SelectItem value="Design">Design</SelectItem>
-                  <SelectItem value="Operations">Operations</SelectItem>
+                  <SelectItem value="ENGINEERING">ENGINEERING</SelectItem>
+                  <SelectItem value="DESIGN">DESIGN</SelectItem>
+                  <SelectItem value="PRODUCT">PRODUCT</SelectItem>
+                  <SelectItem value="MARKETING">MARKETING</SelectItem>
+                  <SelectItem value="OPERATIONS">OPERATIONS</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="relative">
+            <Filter className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+            <Select onValueChange={(val) => onLeave(val)}>
+              <SelectTrigger className="pl-9 w-full sm:w-[180px]">
+                <SelectValue placeholder="All Leave" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Select leave Status</SelectLabel>
+                  <SelectItem value="ALL">All</SelectItem>
+                  <SelectItem value="SICK">SICK</SelectItem>
+                  <SelectItem value="MATERNITY">MATERNITY</SelectItem>
+                  <SelectItem value="PATERNITY">PATERNITY</SelectItem>
+                  <SelectItem value="ANNUAL">ANNUAL</SelectItem>
+                  <SelectItem value="BEREAVEMENT">BEREAVEMENT</SelectItem>
+                  <SelectItem value="MARRIAGE">MARRIAGE</SelectItem>
+                  <SelectItem value="PARENTAL">PARENTAL</SelectItem>
+                  <SelectItem value="STUDY">STUDY</SelectItem>
+                  <SelectItem value="RELIGIOUS">RELIGIOUS</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -65,18 +92,13 @@ export const EmployeeFilters: React.FC<Props> = ({
             <Filter className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
             <Select onValueChange={(val) => onStatus(val)}>
               <SelectTrigger className="pl-9 w-full sm:w-[180px]">
-                <SelectValue placeholder="All Status" />
+                <SelectValue placeholder="ACTIVE" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectLabel>Select Status</SelectLabel>
-                  <SelectItem value="ALL">All</SelectItem>
+                  <SelectLabel>Select Employee Status</SelectLabel>
                   <SelectItem value="ACTIVE">ACTIVE</SelectItem>
                   <SelectItem value="INACTIVE">INACTIVE</SelectItem>
-                  <SelectItem value="SICK">SICK</SelectItem>
-                  <SelectItem value="VACATION">VACATION</SelectItem>
-                  <SelectItem value="MATERNITY">MATERNITY</SelectItem>
-                  <SelectItem value="EMERGENCY">EMERGENCY</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
