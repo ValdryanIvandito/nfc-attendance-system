@@ -1,4 +1,5 @@
-// src/components/EmployeeFilters.tsx
+/* src/components/AttendanceFilters.tsx */
+
 import React from "react";
 import { Search, Filter, ChevronDownIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";

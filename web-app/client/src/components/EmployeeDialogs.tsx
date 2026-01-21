@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// src/components/EmployeeDialogs.tsx
+/* src/components/EmployeeDialogs.tsx
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React from "react";
 import {
   Dialog,

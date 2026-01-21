@@ -1,3 +1,5 @@
+/* src/utils/ui/getStatusColor.ts */
+
 export const getStatusColor = (status: string): string => {
   switch (status) {
     // EMPLOYEE STATUS

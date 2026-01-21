@@ -1,4 +1,5 @@
-// src/api/dashboard.api.ts
+/* src/api/dashboard.api.ts */
+
 import type { Dashboard } from "@/types/dashboard.type";
 import { axiosClient } from "./_axiosClient";
 import { DateTime } from "luxon";

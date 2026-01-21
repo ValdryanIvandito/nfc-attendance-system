@@ -1,4 +1,5 @@
-// src/components/EmployeeActions.tsx
+/* src/components/EmployeeActions.tsx */
+
 import React from "react";
 import { Info, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,7 +8,7 @@ type Props = {
   status: string;
   onDetail: () => void;
   onEdit: () => void;
-  onDeleteClick: () => void; // only sets "to delete" id, actual delete handled in dialog/hook
+  onDeleteClick: () => void;
 };
 
 export const EmployeeActions: React.FC<Props> = ({

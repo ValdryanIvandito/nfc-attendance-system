@@ -1,3 +1,5 @@
+/* src/types/statCardProps.ts */
+
 export type StatCardProps = {
   title: string;
   value: string | number;

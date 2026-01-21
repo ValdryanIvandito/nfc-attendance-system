@@ -1,4 +1,5 @@
-// src/types/attendance.type.ts
+/* src/types/attendance.type.ts */
+
 import type { Employee } from "./employee.types.ts";
 
 export type Attendance = {

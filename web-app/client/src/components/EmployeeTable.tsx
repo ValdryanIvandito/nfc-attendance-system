@@ -1,4 +1,5 @@
-// src/components/EmployeeTable.tsx
+/* src/components/EmployeeTable.tsx */
+
 import React from "react";
 import {
   Table,

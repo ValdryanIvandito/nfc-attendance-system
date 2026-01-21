@@ -1,4 +1,4 @@
-// srr/utis/date/toDateShortText.ts
+/* src/utils/date/toDateShortText.ts */
 
 import { DateTime } from "luxon";
 

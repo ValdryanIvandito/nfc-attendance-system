@@ -1,4 +1,5 @@
-// src/pages/Attendance.tsx
+/* src/pages/Attendance.tsx */
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { useAttendances } from "@/hooks/useAttendances";

@@ -1,4 +1,5 @@
-// src/components/EmployeeActions.tsx
+/* src/components/AttendanceAction.tsx */
+
 import React from "react";
 import { Info } from "lucide-react";
 import { Button } from "@/components/ui/button";

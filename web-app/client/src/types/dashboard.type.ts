@@ -1,4 +1,5 @@
-// src/types/dashboard.type.ts
+/* src/types/dashboard.type.ts */
+
 export type Dashboard = {
   presentToday: number;
   notPresentToday: number;

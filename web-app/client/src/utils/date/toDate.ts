@@ -1,4 +1,5 @@
-// src/utils/date/toDate.ts
+/* src/utils/date/toDate.ts */
+
 import { DateTime } from "luxon";
 
 export function toDate(date?: Date): string | undefined {

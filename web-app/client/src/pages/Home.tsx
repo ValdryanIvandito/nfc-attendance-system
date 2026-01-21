@@ -1,3 +1,5 @@
+/* src/pages/Home.tsx */
+
 import { useDashboard } from "@/hooks/useDashboard";
 import { StatCard } from "@/components/StatCard";
 import {

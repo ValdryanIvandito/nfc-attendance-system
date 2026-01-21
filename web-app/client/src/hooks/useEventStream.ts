@@ -1,9 +1,10 @@
-// src/hooks/useEventStream.ts
+/* src/hooks/useEventStream.ts */
+
 import { useEffect } from "react";
 
 export function useEventStream<T>(
   eventName: string,
-  onMessage: (data: T) => void
+  onMessage: (data: T) => void,
 ) {
   useEffect(() => {
     console.log("[SSE] connecting...");

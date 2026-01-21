@@ -1,4 +1,5 @@
-// src/types/employee.type.ts
+/* src/types/employee.types.ts */
+
 export type Employee = {
   employee_id: number;
   uid: string;

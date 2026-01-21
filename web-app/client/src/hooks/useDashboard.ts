@@ -1,5 +1,6 @@
+/* src/hooks/useDashboard.ts */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// src/hooks/useDashboard.ts
+
 import { useCallback, useEffect, useState } from "react";
 import { dashboardAPI } from "@/api/dashboard.api";
 import type { Dashboard } from "@/types/dashboard.type";

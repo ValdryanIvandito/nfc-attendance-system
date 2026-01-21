@@ -1,5 +1,6 @@
+/* src/hooks/useEmployees.ts */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// src/hooks/useEmployees.ts
+
 import { useCallback, useEffect, useState } from "react";
 import { employeeAPI } from "@/api/employee.api";
 import type { Employee, EmployeeListResponse } from "@/types/employee.types.ts";

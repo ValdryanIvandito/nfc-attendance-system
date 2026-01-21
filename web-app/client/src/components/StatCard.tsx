@@ -1,3 +1,5 @@
+/* src/components/StatCard.tsx */
+
 import { Card, CardContent } from "@/components/ui/card";
 
 type StatCardProps = {

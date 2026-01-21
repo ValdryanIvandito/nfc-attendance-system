@@ -1,4 +1,5 @@
-// src/components/layout/MainLayout.tsx
+/* src/components/layout/MainLayout.tsx */
+
 import type { ReactNode } from "react";
 import { useState } from "react";
 import Sidebar from "./Sidebar";

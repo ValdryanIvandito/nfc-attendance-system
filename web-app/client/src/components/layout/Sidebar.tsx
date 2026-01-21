@@ -1,4 +1,5 @@
-// src/components/layout/Sidebar.tsx
+/* src/components/layout/Sidebar.tsx */
+
 import { NavLink } from "react-router-dom";
 import { LayoutDashboard, Users2, Clock } from "lucide-react";
 

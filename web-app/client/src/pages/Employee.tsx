@@ -1,4 +1,5 @@
-// src/pages/Employee.tsx
+/* src/pages/Employee.tsx */
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { useEmployees } from "@/hooks/useEmployees";

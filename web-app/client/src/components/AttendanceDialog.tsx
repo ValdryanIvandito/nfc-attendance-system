@@ -1,4 +1,5 @@
-// src/components/EmployeeDialogs.tsx
+/* src/components/AttendanceDialog.tsx */
+
 import React from "react";
 import {
   Dialog,

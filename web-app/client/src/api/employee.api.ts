@@ -1,4 +1,5 @@
-// src/api/employee.api.ts
+/* src/api/employee.api.ts */
+
 import { axiosClient } from "./_axiosClient";
 
 export const employeeAPI = {
