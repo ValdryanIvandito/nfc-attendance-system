@@ -2,7 +2,7 @@
 
 echo "Waiting for Postgres to be ready..."
 
-until nc -z postgres 5432; do
+until nc -z -w 2 db 5432; do
   sleep 2
 done
 
