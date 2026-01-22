@@ -46,12 +46,12 @@ applications.
 
 This project demonstrates:
 
-- End-to-end full-stack system development\
-- Relational database modeling and design\
-- Backend API architecture and implementation\
-- Frontend dashboard application development\
-- Desktop application development with hardware integration\
-- Containerized backend infrastructure using Docker\
+- End-to-end full-stack system development
+- Relational database modeling and design
+- Backend API architecture and implementation
+- Frontend dashboard application development
+- Desktop application development with hardware integration
+- Containerized backend infrastructure using Docker
 - Cross-platform desktop application packaging
 
 > ⚠️ **Project Status:** This project is currently in the **prototyping
