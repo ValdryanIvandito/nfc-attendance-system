@@ -192,7 +192,7 @@ Before running the system, make sure that **all required software is installed**
 - **[MIFARE Classic NFC Tag](https://www.nxp.com/products/rfid-nfc/mifare-hf/mifare-classic)**
 - **[ACR122U USB NFC Reader](https://www.acs.com.hk/en/products/3/acr122u-usb-nfc-reader/)**
 
-#### Device Driver (Must Be Installed)
+### Device Driver (Must Be Installed)
 
 - **[ACR122U NFC Reader Driver (Windows / macOS / Linux)](https://www.acs.com.hk/en/driver/3/acr122u-usb-nfc-reader/)**
 

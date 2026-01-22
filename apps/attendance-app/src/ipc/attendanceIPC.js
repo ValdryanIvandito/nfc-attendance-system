@@ -18,6 +18,7 @@ function attendanceIPC(mainWindow, nfcReader, config) {
 
   const endpoint = `${API_BASE_URL.replace(/\/$/, "")}/terminal/v1/attendance`;
 
+  // THIS LOGIC IS FOR DEVELOPMENT / TESTING PURPOSES ONLY
   nfcReader(async (uid) => {
     try {
       const datetime = DateTime.local().toISO();
@@ -78,7 +79,7 @@ function attendanceIPC(mainWindow, nfcReader, config) {
         );
       }
 
-      // THIS LOGIC IS FOR DEVELOPMENT / TESTING PURPOSES ONLY
+      // ATTENDANCE ALREADY COMPLETED (PREVENT MULTIPLE CHECK-OUT)
       return mainWindow.webContents.send(
         "card:detected",
         "Attendance already completed for today.",
