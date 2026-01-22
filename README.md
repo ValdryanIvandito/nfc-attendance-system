@@ -1,6 +1,6 @@
 # NFC Attendance System
 
-Traditional attendance systems often face common operational challenges such as manual data entry errors and slow verification processes. At the same time, many existing digital attendance solutions rely on biometric hardware, which often requires high initial investment, specialized devices, and complex maintenance — making them less accessible for small businesses and startups.
+Traditional attendance systems often face common operational challenges such as manual data entry errors and slow verification processes. At the same time, many existing digital attendance solutions rely on biometric hardware which often requires high initial investment, specialized devices, and complex maintenance — making them less accessible for small businesses and startups.
 
 The NFC Attendance System was designed as a **cost-effective and practical alternative** to address these challenges. By leveraging **Near Field Communication (NFC)** technology, attendance recording can be simplified into a fast, tap-based interaction while significantly reducing infrastructure and hardware costs.
 
@@ -12,7 +12,7 @@ This approach enables small organizations to adopt a modern attendance system wi
 
 NFC Attendance System is an NFC-based attendance platform that combines **Desktop Applications (Electron.js)** and **Web Applications (React.js + Node.js)** to deliver a modern, hardware-integrated attendance solution.
 
-This project was developed as an **end-to-end full-stack engineering demonstration**. The entire system was built from scratch, covering the complete development lifecycle — starting from data modeling, database schema planning and setup, backend API development, frontend web application implementation, desktop terminal application development, Docker-based infrastructure configuration, and multi-platform desktop application build pipelines.
+This project was developed as an end-to-end full-stack solution, covering the complete development lifecycle — including data modeling, database schema planning and setup, backend API development, frontend web application implementation, desktop terminal application development, Docker-based infrastructure configuration, and multi-platform desktop application build pipelines.
 
 The primary objective of this project is to showcase real-world full-stack software engineering capabilities by implementing a complete working system, from system architecture design to deployment-ready applications.
 
@@ -98,7 +98,6 @@ The Register App is used by the **HR department** to register new employees into
 Main responsibilities:
 
 - Input employee data (full name, department, position)
-- Scan NFC card or tag
 - Automatically bind the NFC UID with employee data
 - Store complete registration data in the central database via API Server
 
@@ -151,6 +150,8 @@ Main responsibilities:
 - Manage database transactions
 - Provide real-time event streaming using Server-Sent Events (SSE)
 
+Currently, the real-time streaming feature is primarily used to deliver **attendance check-in and check-out events**, enabling the Web Client dashboard to receive live attendance updates.
+
 The API Server ensures consistent data synchronization across all platforms.
 
 ---
@@ -180,17 +181,32 @@ The API Server ensures consistent data synchronization across all platforms.
 
 Make sure your environment meets the following requirements:
 
-Software:
+#### Software
 
-- Node.js version 18 or higher
-- Docker and Docker Compose
-- Git
+- **Node.js (v18 or higher)**  
+  https://nodejs.org/en/download/
 
-Hardware:
+- **Docker & Docker Compose**  
+  https://www.docker.com/get-started
 
-- NFC Reader: **ACR122U**
-- NFC Tag: **MIFARE Classic**
-- Installed ACR122U NFC Reader driver
+- **Git (Version Control)**  
+  https://git-scm.com/downloads
+
+---
+
+#### Hardware
+
+- **NFC Reader — ACR122U USB NFC Reader**  
+  Product Page:  
+  https://www.acs.com.hk/en/products/3/acr122u-usb-nfc-reader/
+
+- **NFC Tag — MIFARE Classic (13.56 MHz)**  
+  Example Product Reference:  
+  https://www.nxp.com/products/rfid-nfc/mifare-hf/mifare-classic
+
+- **ACR122U NFC Reader Driver (Windows / macOS / Linux)**  
+  Official Driver Download:  
+  https://www.acs.com.hk/en/driver/3/acr122u-usb-nfc-reader/
 
 ---
 
