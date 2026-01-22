@@ -108,8 +108,8 @@ identity validation during attendance operations.
 
 The current Web Client focuses on essential administrative features:
 
-- Attendance summary dashboard\
-- Employee management interface\
+- Attendance summary dashboard
+- Employee management interface
 - Attendance record visualization
 
 Authentication systems, role-based access control, and advanced
@@ -256,7 +256,7 @@ Open the file and add the following content:
 
 ```env
 WEB_ORIGINS="http://localhost:5173,http://localhost:4173,http://localhost:3173"
-API_KEY="67fa80b8bcf2d41b6aac848af7e9fa2dff3a9cfe7e98c11239e4b741d82e57e2"
+API_KEY="ANY_RANDOM_ALPHANUMERIC_STRING"
 DATABASE_URL="postgresql://postgres:postgres@db:5432/attendance"
 ```
 
@@ -291,8 +291,8 @@ Access:
 
 ## 🖥 Build Desktop Applications
 
-Primary testing platform: **Windows**
-Linux and macOS builds are available but not fully validated.
+This project has been primarily developed and tested on **Windows OS**.  
+Build scripts for **Linux and macOS** are available, but cross-platform stability on those platforms has not yet been fully validated.
 
 ### Attendance App
 
@@ -392,16 +392,7 @@ npm run dev
 
 ## 📄 License
 
-This project is licensed under the **Apache License 2.0**.
-
-You are free to:
-
-- Use commercially
-- Modify
-- Distribute
-- Use privately
-
-See the [LICENSE](./LICENSE) file for more details.
+This project is licensed under the **Apache License 2.0**. See the [LICENSE](./LICENSE) file for more details.
 
 ---
 
