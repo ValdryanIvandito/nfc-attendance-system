@@ -1,117 +1,159 @@
 # NFC Attendance System
 
-NFC Attendance System is an NFC-based attendance platform that combines
-**Desktop Applications (Electron)** and **Web Applications (React + Nod
-e.js)** to create a modern, fast, and hardware-integrated attendance
-system.
+Traditional attendance systems often face common operational challenges such as manual data entry errors and slow verification processes. At the same time, many existing digital attendance solutions rely on biometric hardware, which often requires high initial investment, specialized devices, and complex maintenance — making them less accessible for small businesses and startups.
 
-This project was developed as a personal portfolio project to
-demonstrate full-stack software engineering skills, hardware integration
-capabilities, and modern multi-application system architecture using a
-monorepo approach.
+The NFC Attendance System was designed as a **cost-effective and practical alternative** to address these challenges. By leveraging **Near Field Communication (NFC)** technology, attendance recording can be simplified into a fast, tap-based interaction while significantly reducing infrastructure and hardware costs.
 
-------------------------------------------------------------------------
+This approach enables small organizations to adopt a modern attendance system without large upfront capital expenditure. Although NFC-based systems have inherent limitations compared to biometric solutions, the architecture of this project is designed with extensibility in mind. Future improvements include integrating **face recognition verification** to enhance identity validation while preserving the simplicity and affordability of the current system.
 
-## 📌 Introduction
+---
 
-Traditional attendance systems often face problems such as manual input
-errors, data manipulation, and slow operational processes. By leveraging
-**Near Field Communication (NFC)** technology, attendance recording can
-be performed instantly with a simple tap.
+## 🧩 Project Overview
 
-This project aims to:
+NFC Attendance System is an NFC-based attendance platform that combines **Desktop Applications (Electron.js)** and **Web Applications (React.js + Node.js)** to deliver a modern, hardware-integrated attendance solution.
 
--   Automate attendance recording using NFC technology
--   Provide a desktop terminal application for hardware interaction
--   Deliver a centralized web dashboard and API server
--   Implement a scalable, production-ready system architecture
+This project was developed as an **end-to-end full-stack engineering demonstration**. The entire system was built from scratch, covering the complete development lifecycle — starting from data modeling, database schema planning and setup, backend API development, frontend web application implementation, desktop terminal application development, Docker-based infrastructure configuration, and multi-platform desktop application build pipelines.
 
-------------------------------------------------------------------------
+The primary objective of this project is to showcase real-world full-stack software engineering capabilities by implementing a complete working system, from system architecture design to deployment-ready applications.
+
+This project was created to demonstrate:
+
+- End-to-end full-stack system development
+- Database modeling and relational design
+- Backend API architecture and implementation
+- Frontend dashboard application development
+- Desktop application development with hardware integration
+- Containerized backend infrastructure using Docker
+- Cross-platform desktop application packaging
+
+> ⚠️ **Project Status:** This project is currently in the **prototyping and active development stage**. The system architecture and features will continue to be improved and expanded in future iterations.
+
+> During development, **LLM-based AI tools were used as engineering assistants** to accelerate certain tasks such as code scaffolding, syntax generation, documentation drafting, and technical brainstorming. However, the overall system design, architectural decisions, data modeling, business logic implementation, integration strategy, and debugging processes were driven by deliberate engineering decisions and manual validation.
+
+> This project was not built using a "vibe coding" approach. Instead, it reflects an engineering-focused workflow that prioritizes **fundamental understanding, system architecture awareness, and maintainable software design**, while responsibly leveraging AI tools as productivity enhancers rather than code ownership replacements.
+
+---
+
+## ⚠️ Project Scope and Limitations
+
+This project is currently developed as a **prototype system** and focuses on demonstrating core functionality and system architecture. Several design decisions and limitations are intentionally applied based on development scope, cost considerations, and project objectives.
+
+### 1. NFC Card Security Level
+
+The system uses **MIFARE Classic NFC cards**, which are widely available and cost-effective but do not provide high-level security standards. These cards are relatively easy to duplicate compared to secure smart card alternatives. This hardware choice was made to support affordable prototyping and rapid testing, rather than high-security production deployment.
+
+Future implementations may adopt more secure NFC standards or integrate additional authentication layers.
+
+---
+
+### 2. Attendance Proxy Risk (Card Sharing)
+
+In real-world environments, NFC-based attendance systems may be vulnerable to **proxy attendance**, where employees share their NFC cards with others to register attendance on their behalf.
+
+This project does not currently address this issue. However, the system architecture has been designed to support future enhancements such as **face recognition verification** to strengthen identity validation during attendance transactions.
+
+---
+
+### 3. Limited Web Client Feature Scope
+
+The current Web Client application is intentionally kept minimal and focuses on essential administrative functionality. At this stage, the web interface provides:
+
+- Attendance summary dashboard
+- Employee data management
+- Attendance record visualization
+
+User authentication, role-based access control, and advanced administrative features have not yet been implemented and are planned for future development phases.
+
+---
+
+### 4. Simplified Attendance Business Logic
+
+The attendance logic implemented in the desktop terminal application is currently simplified and does not fully represent complex real-world attendance workflows.
+
+Current behavior:
+
+- First NFC tap → Check-in recorded
+- Second NFC tap → Check-out recorded
+
+Advanced business rules such as shift scheduling, late arrival detection, break time handling, overtime calculation, and company policy enforcement are outside the current project scope and will be considered in future iterations.
+
+---
 
 ## 🧩 Software Architecture Overview
 
-This system consists of **two main platforms**:
+The system is composed of **two primary application layers**: Desktop Terminal Applications and Web-Based Management Platform. Each component has a clearly defined responsibility within the overall attendance workflow.
 
-------------------------------------------------------------------------
+---
 
-### 🖥 Desktop Applications
+### 🖥 Desktop Applications (Terminal Layer)
 
-Desktop applications act as physical terminals connected directly to NFC
-hardware.
+Desktop applications act as physical NFC terminals installed on office devices and are responsible for direct interaction with NFC hardware.
 
-#### 1. Register App
+---
 
-Main functions:
+#### Register App (Employee Enrollment Terminal)
 
--   Register NFC tags into the system
--   Associate NFC tag UID with employee/user data
--   Used by administrators or system operators
+The Register App is used by the **HR department** to register new employees into the system.
 
-Features:
+Main responsibilities:
 
--   NFC tag scanning
--   Tag registration workflow
--   Direct API server integration
+- Input employee data (full name, department, position)
+- Scan NFC card or tag
+- Automatically bind the NFC UID with employee data
+- Store complete registration data in the central database via API Server
 
-------------------------------------------------------------------------
+This application is typically used during employee onboarding.
 
-#### 2. Attendance App
+---
 
-Main functions:
+#### Attendance App (Attendance Terminal)
 
--   Used as attendance terminal device
--   Reads NFC tags for check-in and check-out operations
+The Attendance App is installed on office terminal devices and is used for daily attendance operations.
 
-Features:
+Main responsibilities:
 
--   Real-time NFC scanning
--   Attendance data transmission to API server
--   Production-ready terminal interface
+- Scan employee NFC cards upon arrival (check-in)
+- Scan NFC cards again when leaving work (check-out)
+- Send attendance records directly to the API Server
 
-------------------------------------------------------------------------
+This application functions as the primary attendance entry point for employees.
 
-### 🌐 Web Applications
+---
 
-Web applications act as the data management center and user interface.
+### 🌐 Web Applications (Management Layer)
 
-------------------------------------------------------------------------
+Web applications provide the administrative interface and centralized data management platform.
 
-#### 1. Web Client (Frontend)
+---
 
-Built with:
+#### Web Client (HR Dashboard)
 
--   React
--   TypeScript
--   Vite
--   TailwindCSS
+The Web Client is primarily used by the **HR department** to manage and monitor attendance data.
 
-Functions:
+Main features:
 
--   Attendance dashboard
--   Real-time monitoring
--   Data visualization
--   API server consumption
+- Summary dashboard with attendance statistics
+- Employee management interface
+- Attendance record and history visualization
 
-------------------------------------------------------------------------
+This application serves as the main administrative control panel.
 
-#### 2. API Server (Backend)
+---
 
-Built with:
+#### API Server (Backend Core)
 
--   Node.js
--   Express.js
--   Prisma ORM
--   PostgreSQL
+The API Server acts as the central communication hub between all system components.
 
-Functions:
+Main responsibilities:
 
--   REST API services
--   Authentication and authorization handling
--   Attendance data management
--   Server-Sent Events (SSE) streaming
--   Database integration
+- Handle incoming requests from Web Client, Attendance App, and Register App
+- Process business logic and data validation
+- Manage database transactions
+- Provide real-time event streaming using Server-Sent Events (SSE)
 
-------------------------------------------------------------------------
+The API Server ensures consistent data synchronization across all platforms.
+
+---
 
 ## 📂 Project Directory Structure
 
@@ -128,11 +170,11 @@ Functions:
     ├── LICENSE
     └── README.md
 
-------------------------------------------------------------------------
+---
 
 ## ⚙️ How To Run The Project
 
-------------------------------------------------------------------------
+---
 
 ### ✅ Prerequisites
 
@@ -140,21 +182,21 @@ Make sure your environment meets the following requirements:
 
 Software:
 
--   Node.js version 18 or higher
--   Docker and Docker Compose
--   Git
+- Node.js version 18 or higher
+- Docker and Docker Compose
+- Git
 
 Hardware:
 
--   NFC Reader: **ACR122U**
--   NFC Tag: **MIFARE Classic**
--   Installed ACR122U NFC Reader driver
+- NFC Reader: **ACR122U**
+- NFC Tag: **MIFARE Classic**
+- Installed ACR122U NFC Reader driver
 
-------------------------------------------------------------------------
+---
 
 ## 🔐 Environment Configuration
 
-------------------------------------------------------------------------
+---
 
 ### 1️⃣ API Server Environment
 
@@ -164,13 +206,13 @@ Create the following file:
 
 Add the following content:
 
-``` env
+```env
 WEB_ORIGINS="http://localhost:5173,http://localhost:4173,http://localhost:3173"
 API_KEY="67fa80b8bcf2d41b6aac848af7e9fa2dff3a9cfe7e98c11239e4b741d82e57e2"
 DATABASE_URL="postgresql://postgres:postgres@db:5432/attendance"
 ```
 
-------------------------------------------------------------------------
+---
 
 ### 2️⃣ Web Client Environment
 
@@ -180,36 +222,38 @@ Create the following file:
 
 Add the following content:
 
-``` env
+```env
 VITE_API_URL="http://localhost:3000/proxy/v1"
 VITE_API_STREAM_URL="http://localhost:3000/events/stream"
 ```
 
-------------------------------------------------------------------------
+---
 
 ## 🐳 Running Backend Infrastructure (Docker)
 
 This project uses Docker to run:
 
--   PostgreSQL database
--   API server
--   Web client production build
+- PostgreSQL database
+- API server
+- Web client production build
 
 From the project root directory, run:
 
-``` bash
+```bash
 docker compose up --build
 ```
 
 Running services:
 
-  Service      URL
-  ------------ -----------------------
-  API Server   http://localhost:3000
-  Web Client   http://localhost:3173
-  PostgreSQL   localhost:5432
+Service URL
 
-------------------------------------------------------------------------
+---
+
+API Server http://localhost:3000
+Web Client http://localhost:3173
+PostgreSQL localhost:5432
+
+---
 
 ## 🖥 Building Desktop Applications
 
@@ -217,41 +261,41 @@ Navigate to each desktop application directory.
 
 ### Attendance App
 
-``` bash
+```bash
 cd apps/attendance-app
 npm install
 ```
 
 ### Register App
 
-``` bash
+```bash
 cd apps/register-app
 npm install
 ```
 
-------------------------------------------------------------------------
+---
 
 ### Build Desktop Application Packages
 
 Windows:
 
-``` bash
+```bash
 npm run build:win
 ```
 
 Linux:
 
-``` bash
+```bash
 npm run build:linux
 ```
 
 MacOS:
 
-``` bash
+```bash
 npm run build:mac
 ```
 
-------------------------------------------------------------------------
+---
 
 ### Build Output
 
@@ -261,10 +305,10 @@ After the build process completes, output files will be available in:
 
 You can:
 
--   Run the `.exe` file directly
--   Or install the application using the provided installer
+- Run the `.exe` file directly
+- Or install the application using the provided installer
 
-------------------------------------------------------------------------
+---
 
 ## 🧪 Development Mode (Optional)
 
@@ -272,62 +316,62 @@ For local development:
 
 ### API Server
 
-``` bash
+```bash
 cd apps/api-server
 npm run dev
 ```
 
-------------------------------------------------------------------------
+---
 
 ### Web Client
 
-``` bash
+```bash
 cd apps/web-app
 npm run dev
 ```
 
-------------------------------------------------------------------------
+---
 
 ## 🔒 Security Notes
 
--   Never commit `.env` files
--   Always use `.env.example` as a configuration template
--   API keys are intended for development and testing purposes only
+- Never commit `.env` files
+- Always use `.env.example` as a configuration template
+- API keys are intended for development and testing purposes only
 
-------------------------------------------------------------------------
+---
 
 ## 📦 Technology Stack
 
 ### Frontend
 
--   React
--   TypeScript
--   Vite
--   TailwindCSS
+- React
+- TypeScript
+- Vite
+- TailwindCSS
 
 ### Backend
 
--   Node.js
--   Express.js
--   Prisma ORM
--   PostgreSQL
+- Node.js
+- Express.js
+- Prisma ORM
+- PostgreSQL
 
 ### Desktop
 
--   Electron.js
--   Node.js
+- Electron.js
+- Node.js
 
 ### Infrastructure
 
--   Docker
--   Docker Compose
+- Docker
+- Docker Compose
 
 ### Hardware
 
--   ACR122U NFC Reader
--   MIFARE Classic NFC Tag
+- ACR122U NFC Reader
+- MIFARE Classic NFC Tag
 
-------------------------------------------------------------------------
+---
 
 ## 📄 License
 
@@ -335,43 +379,34 @@ This project is licensed under the **Apache License 2.0**.
 
 You are free to:
 
--   Use commercially
--   Modify
--   Distribute
--   Use privately
+- Use commercially
+- Modify
+- Distribute
+- Use privately
 
 See the [LICENSE](./LICENSE) file for more details.
 
-------------------------------------------------------------------------
+---
 
 ## 🚀 Future Improvements
 
 Potential future enhancements include:
 
--   User authentication and role management
--   Multi-terminal device support
--   Offline-first attendance synchronization
--   Advanced analytics dashboard
--   Auto-update system for desktop applications
--   Mobile NFC support
+- User authentication and role management
+- Face recognition integration
+- Multi-terminal device support
+- Offline-first attendance synchronization
+- Advanced analytics dashboard
+- Mobile NFC support
 
-------------------------------------------------------------------------
-
-## 🤝 Contribution
-
-Contributions are welcome.
-
-For major changes, please open an issue first to discuss the proposed
-updates.
-
-------------------------------------------------------------------------
+---
 
 ## ⭐ Acknowledgement
 
 This project was developed as part of continuous learning and
 exploration in:
 
--   Full-stack system design
--   Hardware integration
--   Desktop and web hybrid application architecture
--   Production-ready development workflows
+- Full-stack system design
+- Hardware and IoT integration
+- Desktop and web hybrid application architecture
+- Production-ready development workflows
